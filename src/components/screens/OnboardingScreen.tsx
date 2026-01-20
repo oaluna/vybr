@@ -33,7 +33,7 @@ export const OnboardingScreen = () => {
         className="text-center mb-12"
       >
         <h1 className="text-3xl font-display font-bold mb-3">
-          Dating, <span className="text-gradient">Reimagined</span>
+          Dating, <span className="bg-gradient-to-tl from-rose-500 to-orange-400 bg-clip-text text-transparent">Reimagined</span>
         </h1>
         <p className="text-muted-foreground">
           Find matches based on your true self, not curated profiles
