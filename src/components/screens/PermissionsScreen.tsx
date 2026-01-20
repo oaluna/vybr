@@ -42,7 +42,7 @@ export const PermissionsScreen = () => {
 
   const handleContinue = () => {
     grantPermissions();
-    setScreen('analyzing');
+    setScreen('orientation');
   };
 
   return (

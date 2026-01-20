@@ -2,6 +2,7 @@ import { useAppStore } from '@/store/appStore';
 import { SplashScreen } from '@/components/screens/SplashScreen';
 import { OnboardingScreen } from '@/components/screens/OnboardingScreen';
 import { PermissionsScreen } from '@/components/screens/PermissionsScreen';
+import { OrientationScreen } from '@/components/screens/OrientationScreen';
 import { AnalyzingScreen } from '@/components/screens/AnalyzingScreen';
 import { MatchesScreen } from '@/components/screens/MatchesScreen';
 import { ChatScreen } from '@/components/screens/ChatScreen';
@@ -19,6 +20,8 @@ const Index = () => {
         return <OnboardingScreen key="onboarding" />;
       case 'permissions':
         return <PermissionsScreen key="permissions" />;
+      case 'orientation':
+        return <OrientationScreen key="orientation" />;
       case 'analyzing':
         return <AnalyzingScreen key="analyzing" />;
       case 'matches':

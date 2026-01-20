@@ -20,7 +20,9 @@ export interface Message {
 }
 
 interface AppState {
-  currentScreen: 'splash' | 'onboarding' | 'permissions' | 'analyzing' | 'matches' | 'chat';
+  currentScreen: 'splash' | 'onboarding' | 'permissions' | 'orientation' | 'analyzing' | 'matches' | 'chat';
+  orientation: string | null;
+  setOrientation: (orientation: string) => void;
   permissionsGranted: boolean;
   matches: Match[];
   messages: Message[];
@@ -38,6 +40,8 @@ interface AppState {
 export const useAppStore = create<AppState>((set) => ({
   currentScreen: 'splash',
   permissionsGranted: false,
+  orientation: null,
+  setOrientation: (orientation) => set({ orientation }),
   matches: [],
   messages: [],
   currentMatchId: null,
