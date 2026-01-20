@@ -10,7 +10,7 @@ const analysisSteps = [
   "Finding compatible souls..."
 ];
 
-const mockMatches: Match[] = [
+const womenMatches: Match[] = [
   {
     id: '1',
     name: 'Emma',
@@ -33,7 +33,7 @@ const mockMatches: Match[] = [
   },
   {
     id: '3',
-    name: 'Alex',
+    name: 'Lily',
     age: 25,
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face',
     compatibility: 87,
@@ -43,8 +43,41 @@ const mockMatches: Match[] = [
   }
 ];
 
+const menMatches: Match[] = [
+  {
+    id: '4',
+    name: 'James',
+    age: 27,
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face',
+    compatibility: 92,
+    interests: ['Fitness', 'Cooking', 'Movies', 'Travel'],
+    lastActive: '5 min ago',
+    bio: 'Chef in training, gym enthusiast. Love discovering new restaurants and hidden gems.'
+  },
+  {
+    id: '5',
+    name: 'Marcus',
+    age: 29,
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face',
+    compatibility: 88,
+    interests: ['Music', 'Photography', 'Hiking', 'Dogs'],
+    lastActive: '20 min ago',
+    bio: 'Weekend adventurer, weekday creative. My dog picks my dates.'
+  },
+  {
+    id: '6',
+    name: 'Daniel',
+    age: 26,
+    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face',
+    compatibility: 85,
+    interests: ['Tech', 'Gaming', 'Coffee', 'Books'],
+    lastActive: '45 min ago',
+    bio: 'Software dev who reads too much sci-fi. Looking for my co-op partner.'
+  }
+];
+
 export const AnalyzingScreen = () => {
-  const { setScreen, setMatches, addNotification } = useAppStore();
+  const { setScreen, setMatches, addNotification, orientation } = useAppStore();
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(0);
 
@@ -59,12 +92,23 @@ export const AnalyzingScreen = () => {
           clearInterval(progressInterval);
           clearInterval(stepInterval);
           setTimeout(() => {
-            setMatches(mockMatches);
+            // Filter matches based on orientation
+            let filteredMatches: Match[];
+            if (orientation === 'women') {
+              filteredMatches = womenMatches;
+            } else if (orientation === 'men') {
+              filteredMatches = menMatches;
+            } else {
+              // "everyone" - combine both
+              filteredMatches = [...womenMatches, ...menMatches].sort((a, b) => b.compatibility - a.compatibility);
+            }
+            
+            setMatches(filteredMatches);
             addNotification({
               id: Date.now().toString(),
               type: 'match',
-              matchId: mockMatches[0].id,
-              text: `You matched with ${mockMatches[0].name}! 94% compatible`
+              matchId: filteredMatches[0].id,
+              text: `You matched with ${filteredMatches[0].name}! ${filteredMatches[0].compatibility}% compatible`
             });
             setScreen('matches');
           }, 500);
@@ -78,7 +122,7 @@ export const AnalyzingScreen = () => {
       clearInterval(stepInterval);
       clearInterval(progressInterval);
     };
-  }, [setScreen, setMatches, addNotification]);
+  }, [setScreen, setMatches, addNotification, orientation]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6">
