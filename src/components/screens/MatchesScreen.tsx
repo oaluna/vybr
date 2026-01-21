@@ -1,7 +1,16 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MessageCircle, Sparkles } from 'lucide-react';
+import { Heart, MessageCircle, Sparkles, SlidersHorizontal } from 'lucide-react';
 import { useAppStore, Match } from '@/store/appStore';
 import { Button } from '@/components/ui/button';
+import { BottomTabNav } from '@/components/BottomTabNav';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const MatchCard = ({ match, index }: { match: Match; index: number }) => {
   const { setCurrentMatch, setScreen } = useAppStore();
@@ -88,16 +97,42 @@ const MatchCard = ({ match, index }: { match: Match; index: number }) => {
   );
 };
 
+type SortOption = 'compatibility' | 'age' | 'lastActive';
+
+const parseLastActive = (lastActive: string): number => {
+  const match = lastActive.match(/(\d+)/);
+  if (!match) return 0;
+  const num = parseInt(match[1], 10);
+  if (lastActive.includes('min')) return num;
+  if (lastActive.includes('hour')) return num * 60;
+  if (lastActive.includes('day')) return num * 1440;
+  return num;
+};
+
 export const MatchesScreen = () => {
   const matches = useAppStore((state) => state.matches);
+  const [sortBy, setSortBy] = useState<SortOption>('compatibility');
+
+  const sortedMatches = [...matches].sort((a, b) => {
+    switch (sortBy) {
+      case 'compatibility':
+        return b.compatibility - a.compatibility;
+      case 'age':
+        return a.age - b.age;
+      case 'lastActive':
+        return parseLastActive(a.lastActive) - parseLastActive(b.lastActive);
+      default:
+        return 0;
+    }
+  });
 
   return (
-    <div className="min-h-screen flex flex-col px-4 py-6">
+    <div className="min-h-screen flex flex-col px-4 py-6 pb-24">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-6"
+        className="text-center mb-4"
       >
         <h1 className="text-2xl font-display font-bold mb-1">
           Your <span className="text-gradient">Matches</span>
@@ -107,14 +142,37 @@ export const MatchesScreen = () => {
         </p>
       </motion.div>
 
+      {/* Sort filter */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="flex items-center gap-3 mb-4"
+      >
+        <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
+        <span className="text-sm text-muted-foreground">Sort by:</span>
+        <Select value={sortBy} onValueChange={(value) => setSortBy(value as SortOption)}>
+          <SelectTrigger className="w-[160px] h-9 bg-card border-border">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="bg-card border-border">
+            <SelectItem value="compatibility">Compatibility</SelectItem>
+            <SelectItem value="age">Age</SelectItem>
+            <SelectItem value="lastActive">Recently Active</SelectItem>
+          </SelectContent>
+        </Select>
+      </motion.div>
+
       {/* Matches grid */}
       <div className="flex-1 space-y-4">
         <AnimatePresence>
-          {matches.map((match, index) => (
+          {sortedMatches.map((match, index) => (
             <MatchCard key={match.id} match={match} index={index} />
           ))}
         </AnimatePresence>
       </div>
+
+      <BottomTabNav />
     </div>
   );
 };

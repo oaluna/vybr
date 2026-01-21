@@ -20,7 +20,7 @@ export interface Message {
 }
 
 interface AppState {
-  currentScreen: 'splash' | 'onboarding' | 'permissions' | 'orientation' | 'analyzing' | 'matches' | 'chat';
+  currentScreen: 'splash' | 'onboarding' | 'permissions' | 'orientation' | 'analyzing' | 'matches' | 'chat' | 'messages' | 'profile' | 'settings';
   orientation: string | null;
   setOrientation: (orientation: string) => void;
   permissionsGranted: boolean;
