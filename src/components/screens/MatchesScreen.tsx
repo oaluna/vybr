@@ -135,7 +135,7 @@ export const MatchesScreen = () => {
         className="text-center mb-4"
       >
         <h1 className="text-2xl font-display font-bold mb-1">
-          Your <span className="text-gradient">Matches</span>
+          Your <span className="bg-gradient-to-tl from-rose-500 to-orange-400 bg-clip-text text-transparent">Matches</span>
         </h1>
         <p className="text-sm text-muted-foreground">
           People who share your digital soul
