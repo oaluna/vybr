@@ -41,7 +41,7 @@
     --radius: 1rem;
 
     /* Custom gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(15 85% 65%), hsl(350 75% 60%));
+    --gradient-primary: linear-gradient(to top left, #f43f5e, #fb923c);
     --gradient-card: linear-gradient(180deg, hsl(220 18% 14%), hsl(220 18% 10%));
     --gradient-glow: radial-gradient(ellipse at center, hsl(15 85% 65% / 0.15), transparent 70%);
     --gradient-match: linear-gradient(135deg, hsl(15 85% 65% / 0.2), hsl(170 60% 45% / 0.2));
