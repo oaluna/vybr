@@ -6,6 +6,9 @@ import { OrientationScreen } from '@/components/screens/OrientationScreen';
 import { AnalyzingScreen } from '@/components/screens/AnalyzingScreen';
 import { MatchesScreen } from '@/components/screens/MatchesScreen';
 import { ChatScreen } from '@/components/screens/ChatScreen';
+import { MessagesScreen } from '@/components/screens/MessagesScreen';
+import { ProfileScreen } from '@/components/screens/ProfileScreen';
+import { SettingsScreen } from '@/components/screens/SettingsScreen';
 import { NotificationToast } from '@/components/NotificationToast';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -26,6 +29,12 @@ const Index = () => {
         return <AnalyzingScreen key="analyzing" />;
       case 'matches':
         return <MatchesScreen key="matches" />;
+      case 'messages':
+        return <MessagesScreen key="messages" />;
+      case 'profile':
+        return <ProfileScreen key="profile" />;
+      case 'settings':
+        return <SettingsScreen key="settings" />;
       case 'chat':
         return <ChatScreen key="chat" />;
       default:
