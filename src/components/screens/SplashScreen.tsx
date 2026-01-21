@@ -57,7 +57,7 @@ export const SplashScreen = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="mt-8 text-4xl font-display font-bold text-gradient"
+        className="mt-8 text-4xl font-display font-bold bg-gradient-to-tl from-rose-500 to-orange-400 bg-clip-text text-transparent"
       >
         Sync
       </motion.h1>

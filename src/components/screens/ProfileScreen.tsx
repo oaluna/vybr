@@ -16,7 +16,7 @@ export const ProfileScreen = () => {
         className="text-center mb-6"
       >
         <h1 className="text-2xl font-display font-bold mb-1">
-          <span className="text-gradient">Profile</span>
+          <span className="bg-gradient-to-tl from-rose-500 to-orange-400 bg-clip-text text-transparent">Profile</span>
         </h1>
         <p className="text-sm text-muted-foreground">
           Your digital identity
