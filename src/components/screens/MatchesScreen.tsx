@@ -203,7 +203,7 @@ export const MatchesScreen = () => {
       </motion.div>
 
       {/* Mosaic grid */}
-      <div className="flex-1 flex-wrap grid grid-cols-3 gap-2">
+      <div className="flex-1 flex-wrap grid grid-cols-3 gap-0">
         {sortedMatches.map((match, index) => (
           <MosaicTile
             key={match.id}
