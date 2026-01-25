@@ -3,6 +3,7 @@ import { SplashScreen } from '@/components/screens/SplashScreen';
 import { OnboardingScreen } from '@/components/screens/OnboardingScreen';
 import { PermissionsScreen } from '@/components/screens/PermissionsScreen';
 import { OrientationScreen } from '@/components/screens/OrientationScreen';
+import { CreateProfileScreen } from '@/components/screens/CreateProfileScreen';
 import { AnalyzingScreen } from '@/components/screens/AnalyzingScreen';
 import { MatchesScreen } from '@/components/screens/MatchesScreen';
 import { ChatScreen } from '@/components/screens/ChatScreen';
@@ -25,6 +26,8 @@ const Index = () => {
         return <PermissionsScreen key="permissions" />;
       case 'orientation':
         return <OrientationScreen key="orientation" />;
+      case 'create-profile':
+        return <CreateProfileScreen key="create-profile" />;
       case 'analyzing':
         return <AnalyzingScreen key="analyzing" />;
       case 'matches':
