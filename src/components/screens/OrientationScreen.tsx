@@ -11,12 +11,13 @@ const orientations = [
 ];
 
 export const OrientationScreen = () => {
-  const { setScreen } = useAppStore();
+  const { setScreen, setOrientation } = useAppStore();
   const [selected, setSelected] = useState<string | null>(null);
 
   const handleContinue = () => {
     if (selected) {
-      setScreen('analyzing');
+      setOrientation(selected);
+      setScreen('create-profile');
     }
   };
 
