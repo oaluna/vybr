@@ -148,7 +148,7 @@ export const MatchesScreen = () => {
         return 0;
     }
   });
-  return <div className="min-h-screen flex flex-col px-4 py-6 pb-24">
+  return <div className="min-h-screen pb-24 px-0 py-0 flex flex-col">
       {/* Header */}
       <motion.div initial={{
       opacity: 0,
@@ -190,7 +190,7 @@ export const MatchesScreen = () => {
       </motion.div>
 
       {/* Mosaic grid */}
-      <div className="flex-1 flex-wrap grid grid-cols-3 gap-y-0 ">
+      <div className="flex-1 items-start grid grid-cols-3 gap-y-0 ">
         {sortedMatches.map((match, index) => <MosaicTile key={match.id} match={match} index={index} onClick={() => setSelectedMatch(match)} />)}
       </div>
 
