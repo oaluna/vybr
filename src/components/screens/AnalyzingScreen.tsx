@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useAppStore, Match } from '@/store/appStore';
+import { supabase } from '@/integrations/supabase/client';
 
 const analysisSteps = [
   "Scanning browsing patterns...",
@@ -8,72 +9,6 @@ const analysisSteps = [
   "Mapping activity rhythms...",
   "Building personality profile...",
   "Finding compatible souls..."
-];
-
-const womenMatches: Match[] = [
-  {
-    id: '1',
-    name: 'Emma',
-    age: 26,
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face',
-    compatibility: 94,
-    interests: ['Tech', 'Coffee', 'Hiking', 'Photography'],
-    lastActive: '2 min ago',
-    bio: 'Engineer by day, photographer by sunset. Looking for someone to share adventures with.'
-  },
-  {
-    id: '2',
-    name: 'Sophie',
-    age: 28,
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=face',
-    compatibility: 89,
-    interests: ['Design', 'Music', 'Travel', 'Cooking'],
-    lastActive: '15 min ago',
-    bio: 'Creative soul with a passport full of stamps. Let\'s explore the world together.'
-  },
-  {
-    id: '3',
-    name: 'Lily',
-    age: 25,
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=face',
-    compatibility: 87,
-    interests: ['Gaming', 'Anime', 'Reading', 'Art'],
-    lastActive: '1 hr ago',
-    bio: 'Bookworm with a love for pixel art and indie games. Cat parent x2.'
-  }
-];
-
-const menMatches: Match[] = [
-  {
-    id: '4',
-    name: 'James',
-    age: 27,
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=face',
-    compatibility: 92,
-    interests: ['Fitness', 'Cooking', 'Movies', 'Travel'],
-    lastActive: '5 min ago',
-    bio: 'Chef in training, gym enthusiast. Love discovering new restaurants and hidden gems.'
-  },
-  {
-    id: '5',
-    name: 'Marcus',
-    age: 29,
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face',
-    compatibility: 88,
-    interests: ['Music', 'Photography', 'Hiking', 'Dogs'],
-    lastActive: '20 min ago',
-    bio: 'Weekend adventurer, weekday creative. My dog picks my dates.'
-  },
-  {
-    id: '6',
-    name: 'Daniel',
-    age: 26,
-    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=face',
-    compatibility: 85,
-    interests: ['Tech', 'Gaming', 'Coffee', 'Books'],
-    lastActive: '45 min ago',
-    bio: 'Software dev who reads too much sci-fi. Looking for my co-op partner.'
-  }
 ];
 
 export const AnalyzingScreen = () => {
@@ -91,27 +26,6 @@ export const AnalyzingScreen = () => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           clearInterval(stepInterval);
-          setTimeout(() => {
-            // Filter matches based on orientation
-            let filteredMatches: Match[];
-            if (orientation === 'women') {
-              filteredMatches = womenMatches;
-            } else if (orientation === 'men') {
-              filteredMatches = menMatches;
-            } else {
-              // "everyone" - combine both
-              filteredMatches = [...womenMatches, ...menMatches].sort((a, b) => b.compatibility - a.compatibility);
-            }
-            
-            setMatches(filteredMatches);
-            addNotification({
-              id: Date.now().toString(),
-              type: 'match',
-              matchId: filteredMatches[0].id,
-              text: `You matched with ${filteredMatches[0].name}! ${filteredMatches[0].compatibility}% compatible`
-            });
-            setScreen('matches');
-          }, 500);
           return 100;
         }
         return prev + 2;
@@ -122,7 +36,61 @@ export const AnalyzingScreen = () => {
       clearInterval(stepInterval);
       clearInterval(progressInterval);
     };
-  }, [setScreen, setMatches, addNotification, orientation]);
+  }, []);
+
+  useEffect(() => {
+    if (progress !== 100) return;
+
+    const fetchMatches = async () => {
+      // Build query based on orientation
+      let query = supabase
+        .from('profiles')
+        .select('*')
+        .order('compatibility', { ascending: false })
+        .limit(50);
+
+      if (orientation === 'women') {
+        query = query.eq('gender', 'female');
+      } else if (orientation === 'men') {
+        query = query.eq('gender', 'male');
+      }
+      // "everyone" - no filter needed
+
+      const { data, error } = await query;
+
+      if (error) {
+        console.error('Error fetching profiles:', error);
+        return;
+      }
+
+      if (data && data.length > 0) {
+        // Map database profiles to Match interface
+        const matches: Match[] = data.map((profile) => ({
+          id: profile.id,
+          name: profile.name,
+          age: profile.age,
+          avatar: profile.avatar,
+          compatibility: profile.compatibility,
+          interests: profile.interests,
+          lastActive: profile.last_active,
+          bio: profile.bio,
+        }));
+
+        setMatches(matches);
+        addNotification({
+          id: Date.now().toString(),
+          type: 'match',
+          matchId: matches[0].id,
+          text: `You matched with ${matches[0].name}! ${matches[0].compatibility}% compatible`
+        });
+      }
+
+      setScreen('matches');
+    };
+
+    const timer = setTimeout(fetchMatches, 500);
+    return () => clearTimeout(timer);
+  }, [progress, orientation, setScreen, setMatches, addNotification]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6">
