@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { useAppStore, Match } from '@/store/appStore';
-import { supabase } from '@/integrations/supabase/client';
+import { useMatchFetching } from '@/hooks/useMatchFetching';
 
 const analysisSteps = [
   "Scanning browsing patterns...",
@@ -12,9 +11,11 @@ const analysisSteps = [
 ];
 
 export const AnalyzingScreen = () => {
-  const { setScreen, setMatches, addNotification, orientation } = useAppStore();
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(0);
+
+  // Use the extracted hook for match fetching
+  useMatchFetching({ enabled: progress === 100 });
 
   useEffect(() => {
     const stepInterval = setInterval(() => {
@@ -37,60 +38,6 @@ export const AnalyzingScreen = () => {
       clearInterval(progressInterval);
     };
   }, []);
-
-  useEffect(() => {
-    if (progress !== 100) return;
-
-    const fetchMatches = async () => {
-      // Build query based on orientation
-      let query = supabase
-        .from('profiles')
-        .select('*')
-        .order('compatibility', { ascending: false })
-        .limit(50);
-
-      if (orientation === 'women') {
-        query = query.eq('gender', 'female');
-      } else if (orientation === 'men') {
-        query = query.eq('gender', 'male');
-      }
-      // "everyone" - no filter needed
-
-      const { data, error } = await query;
-
-      if (error) {
-        console.error('Error fetching profiles:', error);
-        return;
-      }
-
-      if (data && data.length > 0) {
-        // Map database profiles to Match interface
-        const matches: Match[] = data.map((profile) => ({
-          id: profile.id,
-          name: profile.name,
-          age: profile.age,
-          avatar: profile.avatar,
-          compatibility: profile.compatibility,
-          interests: profile.interests,
-          lastActive: profile.last_active,
-          bio: profile.bio,
-        }));
-
-        setMatches(matches);
-        addNotification({
-          id: Date.now().toString(),
-          type: 'match',
-          matchId: matches[0].id,
-          text: `You matched with ${matches[0].name}! ${matches[0].compatibility}% compatible`
-        });
-      }
-
-      setScreen('matches');
-    };
-
-    const timer = setTimeout(fetchMatches, 500);
-    return () => clearTimeout(timer);
-  }, [progress, orientation, setScreen, setMatches, addNotification]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6">
