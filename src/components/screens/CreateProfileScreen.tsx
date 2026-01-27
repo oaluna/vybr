@@ -29,7 +29,7 @@ export const CreateProfileScreen = () => {
         className="text-center mb-8"
       >
         <h1 className="text-2xl font-display font-bold mb-2">
-          Create Your <span className="bg-gradient-to-tl from-rose-500 to-orange-400 bg-clip-text text-transparent">Profile</span>
+          Create Your <span className="text-gradient">Profile</span>
         </h1>
         <p className="text-muted-foreground text-sm">
           Let others know who you are

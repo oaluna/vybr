@@ -1,23 +1,8 @@
 import { create } from 'zustand';
+import type { Match, Message, Notification } from '@/types';
 
-export interface Match {
-  id: string;
-  name: string;
-  age: number;
-  avatar: string;
-  compatibility: number;
-  interests: string[];
-  lastActive: string;
-  bio: string;
-}
-
-export interface Message {
-  id: string;
-  matchId: string;
-  senderId: string;
-  text: string;
-  timestamp: Date;
-}
+// Re-export types for backward compatibility
+export type { Match, Message, Notification } from '@/types';
 
 interface AppState {
   currentScreen: 'splash' | 'onboarding' | 'permissions' | 'orientation' | 'create-profile' | 'analyzing' | 'matches' | 'chat' | 'messages' | 'profile' | 'settings';
@@ -27,13 +12,13 @@ interface AppState {
   matches: Match[];
   messages: Message[];
   currentMatchId: string | null;
-  notifications: { id: string; type: 'match' | 'message'; matchId: string; text: string }[];
+  notifications: Notification[];
   setScreen: (screen: AppState['currentScreen']) => void;
   grantPermissions: () => void;
   setMatches: (matches: Match[]) => void;
   addMessage: (message: Message) => void;
   setCurrentMatch: (matchId: string | null) => void;
-  addNotification: (notification: AppState['notifications'][0]) => void;
+  addNotification: (notification: Notification) => void;
   clearNotification: (id: string) => void;
 }
 

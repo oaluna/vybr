@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft, Send, Sparkles } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
-import { useAppStore, Message } from '@/store/appStore';
+import { useAppStore } from '@/store/appStore';
 import { Button } from '@/components/ui/button';
+import type { Message } from '@/types';
 
 export const ChatScreen = () => {
   const { matches, currentMatchId, messages, addMessage, setScreen, setCurrentMatch, addNotification } = useAppStore();
