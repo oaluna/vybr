@@ -99,8 +99,8 @@
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent;
     background: var(--gradient-primary);
+    @apply bg-clip-text text-transparent;
   }
 
   .animate-pulse-slow {
