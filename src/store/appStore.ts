@@ -5,7 +5,7 @@ import type { Match, Message, Notification } from '@/types';
 export type { Match, Message, Notification } from '@/types';
 
 interface AppState {
-  currentScreen: 'splash' | 'onboarding' | 'permissions' | 'orientation' | 'create-profile' | 'analyzing' | 'matches' | 'chat' | 'messages' | 'profile' | 'settings';
+  currentScreen: 'splash' | 'auth' | 'onboarding' | 'permissions' | 'orientation' | 'create-profile' | 'analyzing' | 'matches' | 'chat' | 'messages' | 'profile' | 'settings';
   orientation: string | null;
   setOrientation: (orientation: string) => void;
   permissionsGranted: boolean;
@@ -20,17 +20,22 @@ interface AppState {
   setCurrentMatch: (matchId: string | null) => void;
   addNotification: (notification: Notification) => void;
   clearNotification: (id: string) => void;
+  resetApp: () => void;
 }
 
-export const useAppStore = create<AppState>((set) => ({
-  currentScreen: 'splash',
+const initialState = {
+  currentScreen: 'splash' as const,
   permissionsGranted: false,
   orientation: null,
-  setOrientation: (orientation) => set({ orientation }),
   matches: [],
   messages: [],
   currentMatchId: null,
   notifications: [],
+};
+
+export const useAppStore = create<AppState>((set) => ({
+  ...initialState,
+  setOrientation: (orientation) => set({ orientation }),
   setScreen: (screen) => set({ currentScreen: screen }),
   grantPermissions: () => set({ permissionsGranted: true }),
   setMatches: (matches) => set({ matches }),
@@ -42,4 +47,5 @@ export const useAppStore = create<AppState>((set) => ({
   clearNotification: (id) => set((state) => ({ 
     notifications: state.notifications.filter(n => n.id !== id) 
   })),
+  resetApp: () => set(initialState),
 }));

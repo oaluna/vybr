@@ -13,6 +13,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import type { Match } from '@/types';
+import { useAuth } from '@/hooks/useAuth';
+import { useSavedMatches } from '@/hooks/useSavedMatches';
 
 type SortOption = 'compatibility' | 'age' | 'lastActive';
 
@@ -28,6 +30,8 @@ const parseLastActive = (lastActive: string): number => {
 
 export const MatchesScreen = () => {
   const matches = useAppStore((state) => state.matches);
+  const { user } = useAuth();
+  const { isMatchSaved, saveMatch, unsaveMatch } = useSavedMatches(user?.id);
   const [sortBy, setSortBy] = useState<SortOption>('compatibility');
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
 
@@ -43,6 +47,14 @@ export const MatchesScreen = () => {
         return 0;
     }
   });
+
+  const handleToggleSave = async (profileId: string) => {
+    if (isMatchSaved(profileId)) {
+      await unsaveMatch(profileId);
+    } else {
+      await saveMatch(profileId);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col px-4 py-6 pb-24">
@@ -96,7 +108,12 @@ export const MatchesScreen = () => {
       {/* Profile card overlay */}
       <AnimatePresence>
         {selectedMatch && (
-          <ProfileCard match={selectedMatch} onClose={() => setSelectedMatch(null)} />
+          <ProfileCard 
+            match={selectedMatch} 
+            onClose={() => setSelectedMatch(null)}
+            isSaved={isMatchSaved(selectedMatch.id)}
+            onToggleSave={() => handleToggleSave(selectedMatch.id)}
+          />
         )}
       </AnimatePresence>
 
