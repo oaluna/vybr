@@ -50,7 +50,7 @@ const Index = () => {
       case 'create-profile':
         return <CreateProfileScreen key="create-profile" />;
       case 'analyzing':
-        return <AnalyzingScreen key="analyzing" />;
+        return <AnalyzingScreen />;
       case 'matches':
         return <MatchesScreen key="matches" />;
       case 'messages':

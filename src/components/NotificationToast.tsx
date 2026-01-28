@@ -38,7 +38,7 @@ export const NotificationToast = () => {
           exit={{ y: -100, opacity: 0 }}
           className="fixed top-4 left-4 right-4 z-50"
         >
-          <button
+          <div
             onClick={handleClick}
             className="w-full glass rounded-2xl p-4 flex items-center gap-3 text-left shadow-elevated"
           >
@@ -75,7 +75,7 @@ export const NotificationToast = () => {
             >
               <X className="w-4 h-4 text-muted-foreground" />
             </button>
-          </button>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
