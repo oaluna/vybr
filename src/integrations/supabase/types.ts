@@ -53,6 +53,80 @@ export type Database = {
         }
         Relationships: []
       }
+      saved_matches: {
+        Row: {
+          created_at: string
+          id: string
+          liked: boolean | null
+          profile_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          liked?: boolean | null
+          profile_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          liked?: boolean | null
+          profile_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_matches_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_profiles: {
+        Row: {
+          age: number
+          avatar: string | null
+          bio: string | null
+          created_at: string
+          gender: string
+          id: string
+          interests: string[] | null
+          name: string
+          orientation: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          age: number
+          avatar?: string | null
+          bio?: string | null
+          created_at?: string
+          gender?: string
+          id?: string
+          interests?: string[] | null
+          name: string
+          orientation?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          age?: number
+          avatar?: string | null
+          bio?: string | null
+          created_at?: string
+          gender?: string
+          id?: string
+          interests?: string[] | null
+          name?: string
+          orientation?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

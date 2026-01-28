@@ -7,9 +7,11 @@ import type { Match } from '@/types';
 interface ProfileCardProps {
   match: Match;
   onClose: () => void;
+  isSaved?: boolean;
+  onToggleSave?: () => void;
 }
 
-export const ProfileCard = ({ match, onClose }: ProfileCardProps) => {
+export const ProfileCard = ({ match, onClose, isSaved = false, onToggleSave }: ProfileCardProps) => {
   const { setCurrentMatch, setScreen } = useAppStore();
 
   const handleMessage = () => {
@@ -83,8 +85,15 @@ export const ProfileCard = ({ match, onClose }: ProfileCardProps) => {
 
           {/* Actions */}
           <div className="flex gap-3">
-            <Button variant="glass" size="icon" className="shrink-0">
-              <Heart className="w-5 h-5 text-primary" />
+            <Button 
+              variant="glass" 
+              size="icon" 
+              className="shrink-0"
+              onClick={onToggleSave}
+            >
+              <Heart 
+                className={`w-5 h-5 ${isSaved ? 'text-primary fill-primary' : 'text-primary'}`} 
+              />
             </Button>
             <Button 
               variant="glow" 

@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { Bell, Shield, HelpCircle, LogOut, ChevronRight, Moon, Globe } from 'lucide-react';
 import { BottomTabNav } from '@/components/BottomTabNav';
+import { useAuth } from '@/hooks/useAuth';
+import { useAppStore } from '@/store/appStore';
 
 interface SettingItem {
   icon: typeof Bell;
@@ -27,6 +29,15 @@ const settingsGroups: { title: string; items: SettingItem[] }[] = [
 ];
 
 export const SettingsScreen = () => {
+  const { signOut, isAuthenticated } = useAuth();
+  const { setScreen, resetApp } = useAppStore();
+
+  const handleLogout = async () => {
+    await signOut();
+    resetApp();
+    setScreen('auth');
+  };
+
   return (
     <div className="min-h-screen flex flex-col px-4 py-6 pb-24">
       {/* Header */}
@@ -83,17 +94,20 @@ export const SettingsScreen = () => {
         ))}
 
         {/* Logout button */}
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="w-full glass rounded-2xl p-4 flex items-center gap-4 hover:bg-destructive/10 transition-colors text-destructive"
-        >
-          <div className="w-10 h-10 rounded-xl bg-destructive/20 flex items-center justify-center">
-            <LogOut className="w-5 h-5" />
-          </div>
-          <span className="font-medium">Log Out</span>
-        </motion.button>
+        {isAuthenticated && (
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            onClick={handleLogout}
+            className="w-full glass rounded-2xl p-4 flex items-center gap-4 hover:bg-destructive/10 transition-colors text-destructive"
+          >
+            <div className="w-10 h-10 rounded-xl bg-destructive/20 flex items-center justify-center">
+              <LogOut className="w-5 h-5" />
+            </div>
+            <span className="font-medium">Log Out</span>
+          </motion.button>
+        )}
       </div>
 
       <BottomTabNav />
