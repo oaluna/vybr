@@ -22,10 +22,10 @@ export type Database = {
           compatibility: number
           created_at: string
           gender: string
-          id: string
           interests: string[]
           last_active: string
           name: string
+          user_id: string
         }
         Insert: {
           age: number
@@ -34,10 +34,10 @@ export type Database = {
           compatibility?: number
           created_at?: string
           gender: string
-          id?: string
           interests?: string[]
           last_active?: string
           name: string
+          user_id?: string
         }
         Update: {
           age?: number
@@ -46,10 +46,10 @@ export type Database = {
           compatibility?: number
           created_at?: string
           gender?: string
-          id?: string
           interests?: string[]
           last_active?: string
           name?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -58,21 +58,21 @@ export type Database = {
           created_at: string
           id: string
           liked: boolean | null
-          profile_id: string
+          profile_id: string | null
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
           liked?: boolean | null
-          profile_id: string
+          profile_id?: string | null
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
           liked?: boolean | null
-          profile_id?: string
+          profile_id?: string | null
           user_id?: string
         }
         Relationships: [
@@ -81,7 +81,7 @@ export type Database = {
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           },
         ]
       }
@@ -90,10 +90,12 @@ export type Database = {
           age: number
           avatar: string | null
           bio: string | null
+          compatibility: number | null
           created_at: string
           gender: string
           id: string
           interests: string[] | null
+          last_active: string | null
           name: string
           orientation: string | null
           updated_at: string
@@ -103,10 +105,12 @@ export type Database = {
           age: number
           avatar?: string | null
           bio?: string | null
+          compatibility?: number | null
           created_at?: string
           gender?: string
           id?: string
           interests?: string[] | null
+          last_active?: string | null
           name: string
           orientation?: string | null
           updated_at?: string
@@ -116,10 +120,12 @@ export type Database = {
           age?: number
           avatar?: string | null
           bio?: string | null
+          compatibility?: number | null
           created_at?: string
           gender?: string
           id?: string
           interests?: string[] | null
+          last_active?: string | null
           name?: string
           orientation?: string | null
           updated_at?: string
