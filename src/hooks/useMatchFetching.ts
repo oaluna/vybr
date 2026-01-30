@@ -39,7 +39,7 @@ export const useMatchFetching = ({ enabled, onComplete }: UseMatchFetchingOption
       if (data && data.length > 0) {
         // Map database profiles to Match interface
         const matches: Match[] = data.map((profile) => ({
-          id: profile.user_id,
+          id: profile.id,
           name: profile.name,
           age: profile.age,
           avatar: profile.avatar,
