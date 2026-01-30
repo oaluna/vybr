@@ -1,7 +1,7 @@
+import {Logo} from '../ui/logo'
 import { motion } from 'framer-motion';
-import { Heart } from 'lucide-react';
-import { useEffect } from 'react';
 import { useAppStore } from '@/store/appStore';
+import { useEffect } from 'react';
 
 export const SplashScreen = () => {
   const setScreen = useAppStore((state) => state.setScreen);
@@ -17,7 +17,6 @@ export const SplashScreen = () => {
     <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 gradient-glow" />
-      
       {/* Animated rings */}
       <div className="absolute inset-0 flex items-center justify-center">
         {[1, 2, 3].map((i) => (
@@ -41,35 +40,7 @@ export const SplashScreen = () => {
       </div>
 
       {/* Logo */}
-      <motion.div
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{ type: "spring", duration: 1 }}
-        className="relative z-10"
-      >
-        <div className="w-24 h-24 gradient-primary rounded-3xl flex items-center justify-center shadow-glow">
-          <Heart className="w-12 h-12 text-primary-foreground" fill="currentColor" />
-        </div>
-      </motion.div>
-
-      {/* App name */}
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="mt-8 text-4xl font-display font-bold text-gradient"
-      >
-        Sync
-      </motion.h1>
-
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
-        className="mt-2 text-muted-foreground"
-      >
-        Match by your digital soul
-      </motion.p>
+      <Logo />
     </div>
   );
 };

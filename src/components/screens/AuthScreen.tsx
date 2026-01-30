@@ -1,11 +1,12 @@
-import { motion } from 'framer-motion';
-import { Heart, Mail, Lock, ArrowRight, User } from 'lucide-react';
+import { ArrowRight, Heart, Lock, Mail, User } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useAppStore } from '@/store/appStore';
-import { useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
 import { lovable } from '@/integrations/lovable';
+import { motion } from 'framer-motion';
+import { useAppStore } from '@/store/appStore';
+import { useAuth } from '@/hooks/useAuth';
+import { useState } from 'react';
 import { z } from 'zod';
 
 const authSchema = z.object({
@@ -94,7 +95,7 @@ export const AuthScreen = () => {
         transition={{ type: 'spring', duration: 0.8 }}
         className="mb-8"
       >
-        <div className="w-20 h-20 rounded-full gradient-primary flex items-center justify-center shadow-glow">
+        <div className="w-24 h-24 gradient-primary rounded-3xl flex items-center justify-center shadow-glow">
           <Heart className="w-10 h-10 text-primary-foreground" fill="currentColor" />
         </div>
       </motion.div>
@@ -107,7 +108,9 @@ export const AuthScreen = () => {
         className="text-center mb-8"
       >
         <h1 className="text-3xl font-display font-bold mb-2">
-          {isLogin ? 'Welcome Back' : 'Join'} <span className="text-gradient">Ember</span>
+          Welcome
+          {!isLogin ? (
+            <span className="text-gradient">Back</span>) : <span></span>}
         </h1>
         <p className="text-muted-foreground">
           {isLogin ? 'Sign in to find your matches' : 'Create an account to get started'}

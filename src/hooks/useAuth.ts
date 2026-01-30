@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import type { Session, User } from '@supabase/supabase-js';
+import { useCallback, useEffect, useState } from 'react';
+
 import { supabase } from '@/integrations/supabase/client';
-import type { User, Session } from '@supabase/supabase-js';
 
 interface UserProfile {
   id: string;
@@ -98,7 +99,7 @@ export const useAuth = () => {
   const signIn = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
-      password,
+      password
     });
     return { data, error };
   };
