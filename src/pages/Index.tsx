@@ -15,14 +15,11 @@ import { SettingsScreen } from '@/components/screens/SettingsScreen';
 import { NotificationToast } from '@/components/NotificationToast';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
+
 const Index = () => {
-  const currentScreen = useAppStore(state => state.currentScreen);
-  const setScreen = useAppStore(state => state.setScreen);
-  const {
-    isAuthenticated,
-    hasProfile,
-    loading
-  } = useAuth();
+  const currentScreen = useAppStore((state) => state.currentScreen);
+  const setScreen = useAppStore((state) => state.setScreen);
+  const { isAuthenticated, hasProfile, loading } = useAuth();
 
   // Handle auth state changes
   useEffect(() => {
@@ -37,6 +34,7 @@ const Index = () => {
       setScreen('orientation');
     }
   }, [isAuthenticated, hasProfile, loading, currentScreen, setScreen]);
+
   const renderScreen = () => {
     switch (currentScreen) {
       case 'splash':
@@ -67,27 +65,26 @@ const Index = () => {
         return <SplashScreen key="splash" />;
     }
   };
-  return <div className="min-h-screen bg-background overflow-x-hidden">
+
+  return (
+    <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Mobile frame for desktop preview */}
       <div className="max-w-md mx-auto min-h-screen relative">
         <NotificationToast />
         <AnimatePresence mode="wait">
-          <motion.div key={currentScreen} initial={{
-          opacity: 0,
-          x: 20
-        }} animate={{
-          opacity: 1,
-          x: 0
-        }} exit={{
-          opacity: 0,
-          x: -20
-        }} transition={{
-          duration: 0.3
-        }} className="">
+          <motion.div
+            key={currentScreen}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
             {renderScreen()}
           </motion.div>
         </AnimatePresence>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default Index;
