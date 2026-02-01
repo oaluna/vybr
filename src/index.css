@@ -8,10 +8,16 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&display=swap");
 
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code&display=swap");
+
 @layer base {
   :root {
     /* Deep, intimate dark palette with warm coral accents */
-    --background: 209 40% 96%;
+    --background: 224 71.4286% 4.1176%;
     --foreground: 222 47% 11%;
 
     --card: 210 40% 98%;
@@ -22,18 +28,18 @@
 
     /* Warm coral/peach primary */
     --primary: 216 19% 26%;
-    --primary-foreground: 210 19% 98%;
+    --primary-foreground: 210 40% 98.0392%;
 
     /* Soft muted coral secondary */
     --secondary: 215 19% 34%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary-foreground: 214 31.8182% 91.3725%;
 
     --muted: 215 20% 65%;
     --muted-foreground: 222 47% 11%;
 
     /* Teal accent for success states */
     --accent: 210 40% 98%;
-    --accent-foreground: 215 16% 46%;
+    --accent-foreground: 189 94.4954% 42.7451%;
 
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 85% 97%;
@@ -42,7 +48,7 @@
     --input: 212 26% 83%;
     --ring: 216 19% 26%;
 
-    --radius: 0rem;
+    --radius: 0.5rem;
 
     /* Custom gradients */
     --gradient-primary: linear-gradient(to top left, #f43f5e, #fb923c);
@@ -69,9 +75,9 @@
     --chart-4: 219 8% 46%;
     --chart-5: 215 19% 34%;
     --sidebar: 210 40% 98%;
-    --font-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
-    --font-serif: 'Crimson Pro', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
-    --font-mono: 'SF Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --font-serif: "Playfair Display", ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
+    --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
     --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
     --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
     --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 1px 2px -1px hsl(0 0% 0% / 0.1);
@@ -124,6 +130,10 @@
     --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 4px 6px -1px hsl(0 0% 0% / 0.1);
     --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.1), 0 8px 10px -1px hsl(0 0% 0% / 0.1);
     --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
+    --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    --font-serif: "Playfair Display", ui-serif, Georgia, Cambria, Times New Roman, Times, serif;
+    --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+    --radius: 0.5rem;
   }
 }
 
