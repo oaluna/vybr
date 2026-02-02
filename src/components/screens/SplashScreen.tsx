@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { Heart } from 'lucide-react';
 import { useEffect } from 'react';
 import { useAppStore } from '@/store/appStore';
+import vybrLogo from '@/assets/vybr-logo.png';
 
 export const SplashScreen = () => {
   const setScreen = useAppStore((state) => state.setScreen);
@@ -42,31 +42,31 @@ export const SplashScreen = () => {
 
       {/* Logo */}
       <motion.div
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
         transition={{ type: "spring", duration: 1 }}
         className="relative z-10"
       >
-        <div className="w-24 h-24 gradient-primary rounded-3xl flex items-center justify-center shadow-glow">
-          <Heart className="w-12 h-12 text-primary-foreground" fill="currentColor" />
-        </div>
+        <motion.img 
+          src={vybrLogo}
+          alt="Vybr"
+          className="w-56 h-56 object-contain"
+          animate={{ 
+            filter: [
+              'drop-shadow(0 0 30px hsl(var(--primary) / 0.4))',
+              'drop-shadow(0 0 60px hsl(var(--primary) / 0.6))',
+              'drop-shadow(0 0 30px hsl(var(--primary) / 0.4))'
+            ]
+          }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        />
       </motion.div>
-
-      {/* App name */}
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="mt-8 text-4xl font-display font-bold text-gradient"
-      >
-        Sync
-      </motion.h1>
 
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
-        className="mt-2 text-muted-foreground"
+        className="mt-4 text-muted-foreground"
       >
         Match by your digital soul
       </motion.p>
