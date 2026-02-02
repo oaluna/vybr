@@ -89,25 +89,23 @@ export const AuthScreen = () => {
   };
   return <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12">
       {/* Animated Logo */}
-      <motion.div 
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: 'spring', duration: 0.8 }}
-        className="mb-8"
-      >
-        <motion.img 
-          src={vybrLogo}
-          alt="Vybr"
-          className="w-48 h-48 object-contain"
-          animate={{ 
-            filter: [
-              'drop-shadow(0 0 20px hsl(var(--primary) / 0.3))',
-              'drop-shadow(0 0 40px hsl(var(--primary) / 0.5))',
-              'drop-shadow(0 0 20px hsl(var(--primary) / 0.3))'
-            ]
-          }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-        />
+      <motion.div initial={{
+      scale: 0,
+      opacity: 0
+    }} animate={{
+      scale: 1,
+      opacity: 1
+    }} transition={{
+      type: 'spring',
+      duration: 0.8
+    }} className="mb-8">
+        <motion.img alt="Vybr" className="w-48 h-48 object-contain" animate={{
+        filter: ['drop-shadow(0 0 20px hsl(var(--primary) / 0.3))', 'drop-shadow(0 0 40px hsl(var(--primary) / 0.5))', 'drop-shadow(0 0 20px hsl(var(--primary) / 0.3))']
+      }} transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: 'easeInOut'
+      }} src="/lovable-uploads/35b567d7-5e7c-4690-8d1f-80da3a49f90a.png" />
       </motion.div>
 
       {/* Form */}
