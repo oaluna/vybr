@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Heart, Mail, Lock, ArrowRight, User } from 'lucide-react';
+import { Mail, Lock, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAppStore } from '@/store/appStore';
@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { lovable } from '@/integrations/lovable';
 import { z } from 'zod';
+import vybrLogo from '@/assets/vybr-logo.png';
 const authSchema = z.object({
   email: z.string().trim().email('Invalid email address').max(255),
   password: z.string().min(6, 'Password must be at least 6 characters').max(100)
@@ -92,37 +93,22 @@ export const AuthScreen = () => {
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: 'spring', duration: 0.8 }}
-        className="mb-6"
+        className="mb-8"
       >
-        <motion.div 
-          className="w-24 h-24 rounded-full gradient-primary flex items-center justify-center shadow-glow"
+        <motion.img 
+          src={vybrLogo}
+          alt="Vybr"
+          className="w-48 h-48 object-contain"
           animate={{ 
-            boxShadow: [
-              '0 0 20px hsl(var(--primary) / 0.4)',
-              '0 0 40px hsl(var(--primary) / 0.6)',
-              '0 0 20px hsl(var(--primary) / 0.4)'
+            filter: [
+              'drop-shadow(0 0 20px hsl(var(--primary) / 0.3))',
+              'drop-shadow(0 0 40px hsl(var(--primary) / 0.5))',
+              'drop-shadow(0 0 20px hsl(var(--primary) / 0.3))'
             ]
           }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <motion.div
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <Heart className="w-12 h-12 text-primary-foreground" fill="currentColor" />
-          </motion.div>
-        </motion.div>
+        />
       </motion.div>
-
-      {/* Logo Text */}
-      <motion.h1 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.5 }}
-        className="text-5xl font-display font-bold mb-8 text-gradient"
-      >
-        Vybr
-      </motion.h1>
 
       {/* Form */}
       <motion.div initial={{
