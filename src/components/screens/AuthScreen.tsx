@@ -87,39 +87,42 @@ export const AuthScreen = () => {
     setScreen('onboarding');
   };
   return <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12">
-      {/* Logo */}
-      <motion.div initial={{
-      scale: 0,
-      rotate: -180
-    }} animate={{
-      scale: 1,
-      rotate: 0
-    }} transition={{
-      type: 'spring',
-      duration: 0.8
-    }} className="mb-8">
-        <div className="w-20 h-20 rounded-full gradient-primary flex items-center justify-center shadow-glow">
-          <Heart className="w-10 h-10 text-primary-foreground" fill="currentColor" />
-        </div>
+      {/* Animated Logo */}
+      <motion.div 
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: 'spring', duration: 0.8 }}
+        className="mb-6"
+      >
+        <motion.div 
+          className="w-24 h-24 rounded-full gradient-primary flex items-center justify-center shadow-glow"
+          animate={{ 
+            boxShadow: [
+              '0 0 20px hsl(var(--primary) / 0.4)',
+              '0 0 40px hsl(var(--primary) / 0.6)',
+              '0 0 20px hsl(var(--primary) / 0.4)'
+            ]
+          }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <motion.div
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <Heart className="w-12 h-12 text-primary-foreground" fill="currentColor" />
+          </motion.div>
+        </motion.div>
       </motion.div>
 
-      {/* Title */}
-      <motion.div initial={{
-      opacity: 0,
-      y: 20
-    }} animate={{
-      opacity: 1,
-      y: 0
-    }} transition={{
-      delay: 0.3
-    }} className="text-center mb-8">
-        <h1 className="text-3xl font-display font-bold mb-2">
-          {isLogin ? 'Welcome Back' : 'Join'} <span className="text-gradient">Ember</span>
-        </h1>
-        <p className="text-muted-foreground">
-          {isLogin ? 'Sign in to find your matches' : 'Create an account to get started'}
-        </p>
-      </motion.div>
+      {/* Logo Text */}
+      <motion.h1 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+        className="text-5xl font-display font-bold mb-8 text-gradient"
+      >
+        Vybr
+      </motion.h1>
 
       {/* Form */}
       <motion.div initial={{
