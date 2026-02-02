@@ -186,17 +186,6 @@ export const AuthScreen = () => {
           </button>
         </div>
 
-        <div className="relative my-4">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-border/50" />
-          </div>
-          
-        </div>
-
-        <Button variant="glass" size="lg" className="w-full" onClick={handleSkip}>
-          <User className="w-5 h-5" />
-          Continue as Guest
-        </Button>
       </motion.div>
     </div>;
 };
