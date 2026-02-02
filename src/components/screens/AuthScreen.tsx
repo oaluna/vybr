@@ -87,7 +87,7 @@ export const AuthScreen = () => {
   const handleSkip = () => {
     setScreen('onboarding');
   };
-  return <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12">
+  return <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12 text-destructive-foreground">
       {/* Animated Logo */}
       <motion.div initial={{
       scale: 0,
