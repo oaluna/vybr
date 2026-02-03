@@ -38,8 +38,9 @@ export const BottomTabNav = () => {
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       className="fixed bottom-0 left-0 right-0 glass border-t border-border z-50"
+      aria-label="Main navigation"
     >
-      <div className="max-w-md mx-auto flex justify-around items-center py-2 px-4">
+      <div className="max-w-md mx-auto flex justify-around items-center py-2 px-4" role="tablist">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           const Icon = tab.icon;
@@ -49,8 +50,11 @@ export const BottomTabNav = () => {
               key={tab.id}
               onClick={() => setScreen(tab.screen)}
               className="flex flex-col items-center gap-1 py-2 px-4 rounded-xl transition-all duration-200"
+              role="tab"
+              aria-selected={isActive}
+              aria-label={tab.label}
             >
-              <div className="relative">
+              <div className="relative" aria-hidden="true">
                 {isActive && (
                   <motion.div
                     layoutId="activeTab"
@@ -60,7 +64,7 @@ export const BottomTabNav = () => {
                 {tab.isLogo ? (
                   <img 
                     src={vybrLogo} 
-                    alt="Vybr" 
+                    alt="" 
                     className={`w-6 h-6 relative z-10 transition-opacity duration-200 ${
                       isActive ? 'opacity-100' : 'opacity-50'
                     }`}
@@ -70,6 +74,7 @@ export const BottomTabNav = () => {
                     className={`w-6 h-6 relative z-10 transition-colors duration-200 ${
                       isActive ? 'text-primary' : 'text-muted-foreground'
                     }`}
+                    aria-hidden="true"
                   />
                 )}
               </div>
@@ -77,6 +82,7 @@ export const BottomTabNav = () => {
                 className={`text-xs font-medium transition-colors duration-200 ${
                   isActive ? 'text-primary' : 'text-muted-foreground'
                 }`}
+                aria-hidden="true"
               >
                 {tab.label}
               </span>
