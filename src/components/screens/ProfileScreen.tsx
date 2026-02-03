@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { BottomTabNav } from '@/components/BottomTabNav';
 import { useAuth } from '@/hooks/useAuth';
 import { useSavedMatches } from '@/hooks/useSavedMatches';
+import vybrLogo from '@/assets/vybr-logo.png';
 
 export const ProfileScreen = () => {
   const { orientation, matches } = useAppStore();
@@ -23,9 +24,12 @@ export const ProfileScreen = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-6"
       >
-        <h1 className="text-2xl font-display font-bold mb-1">
-          <span className="text-gradient">Profile</span>
-        </h1>
+        <div className="flex items-center justify-center gap-2 mb-1">
+          <img src={vybrLogo} alt="Vybr" className="w-8 h-8" />
+          <h1 className="text-2xl font-display font-bold">
+            <span className="text-gradient">Profile</span>
+          </h1>
+        </div>
         <p className="text-sm text-muted-foreground">
           Your digital identity
         </p>

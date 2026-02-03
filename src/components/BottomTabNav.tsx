@@ -1,18 +1,20 @@
 import { motion } from 'framer-motion';
-import { Heart, MessageCircle, User, Settings } from 'lucide-react';
+import { MessageCircle, User, Settings } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
+import vybrLogo from '@/assets/vybr-logo.png';
 
 type TabType = 'matches' | 'messages' | 'profile' | 'settings';
 
 interface Tab {
   id: TabType;
   label: string;
-  icon: typeof Heart;
+  icon?: typeof MessageCircle;
+  isLogo?: boolean;
   screen: 'matches' | 'messages' | 'profile' | 'settings';
 }
 
 const tabs: Tab[] = [
-  { id: 'matches', label: 'Matches', icon: Heart, screen: 'matches' },
+  { id: 'matches', label: 'Matches', isLogo: true, screen: 'matches' },
   { id: 'messages', label: 'Messages', icon: MessageCircle, screen: 'messages' },
   { id: 'profile', label: 'Profile', icon: User, screen: 'profile' },
   { id: 'settings', label: 'Settings', icon: Settings, screen: 'settings' },
@@ -41,7 +43,7 @@ export const BottomTabNav = () => {
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           const Icon = tab.icon;
-          
+
           return (
             <button
               key={tab.id}
@@ -55,11 +57,21 @@ export const BottomTabNav = () => {
                     className="absolute inset-0 gradient-primary rounded-full blur-lg opacity-50"
                   />
                 )}
-                <Icon
-                  className={`w-6 h-6 relative z-10 transition-colors duration-200 ${
-                    isActive ? 'text-primary' : 'text-muted-foreground'
-                  }`}
-                />
+                {tab.isLogo ? (
+                  <img 
+                    src={vybrLogo} 
+                    alt="Vybr" 
+                    className={`w-6 h-6 relative z-10 transition-opacity duration-200 ${
+                      isActive ? 'opacity-100' : 'opacity-50'
+                    }`}
+                  />
+                ) : (
+                  <Icon
+                    className={`w-6 h-6 relative z-10 transition-colors duration-200 ${
+                      isActive ? 'text-primary' : 'text-muted-foreground'
+                    }`}
+                  />
+                )}
               </div>
               <span
                 className={`text-xs font-medium transition-colors duration-200 ${
