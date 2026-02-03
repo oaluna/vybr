@@ -87,7 +87,14 @@ export const AuthScreen = () => {
   const handleSkip = () => {
     setScreen('onboarding');
   };
-  return <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12 text-destructive-foreground">
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12 text-destructive-foreground relative overflow-hidden animated-gradient-bg">
+      {/* Aurora blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-1/2 -left-1/4 w-[80%] h-[80%] rounded-full bg-primary/10 blur-[120px] animate-aurora" />
+        <div className="absolute -bottom-1/2 -right-1/4 w-[70%] h-[70%] rounded-full bg-secondary/15 blur-[100px] animate-aurora" style={{ animationDelay: '4s' }} />
+      </div>
+
       {/* Animated Logo */}
       <motion.div initial={{
       scale: 0,
@@ -174,5 +181,6 @@ export const AuthScreen = () => {
         </div>
 
       </motion.div>
-    </div>;
+    </div>
+  );
 };

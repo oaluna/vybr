@@ -10,10 +10,16 @@ export const SplashScreen = () => {
     }, 2500);
     return () => clearTimeout(timer);
   }, [setScreen]);
-  return <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden animated-gradient-bg">
+      {/* Aurora blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-1/2 -left-1/4 w-[80%] h-[80%] rounded-full bg-primary/10 blur-[120px] animate-aurora" />
+        <div className="absolute -bottom-1/2 -right-1/4 w-[70%] h-[70%] rounded-full bg-secondary/15 blur-[100px] animate-aurora" style={{ animationDelay: '4s' }} />
+      </div>
+
       {/* Background glow */}
       <div className="absolute inset-0 gradient-glow" />
-      
       {/* Animated rings */}
       <div className="absolute inset-0 flex items-center justify-center">
         {[1, 2, 3].map(i => <motion.div key={i} className="absolute rounded-full border border-primary/20" initial={{
@@ -61,5 +67,6 @@ export const SplashScreen = () => {
     }} className="mt-4 text-muted-foreground">
         Match by your digital soul
       </motion.p>
-    </div>;
+    </div>
+  );
 };
