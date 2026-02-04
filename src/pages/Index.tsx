@@ -25,13 +25,25 @@ const Index = () => {
   useEffect(() => {
     if (loading) return;
 
-    // If user is authenticated and has a profile, go to matches
-    if (isAuthenticated && hasProfile && currentScreen === 'splash') {
-      setScreen('matches');
+    // Screens that are part of the main app (don't redirect away from these)
+    const mainAppScreens = ['matches', 'messages', 'profile', 'settings', 'chat'];
+    
+    // Screens that are part of onboarding flow
+    const onboardingScreens = ['orientation', 'create-profile', 'analyzing'];
+
+    // If user is authenticated and has a profile
+    if (isAuthenticated && hasProfile) {
+      // Only redirect if not already in main app or completing onboarding
+      if (!mainAppScreens.includes(currentScreen) && !onboardingScreens.includes(currentScreen)) {
+        setScreen('matches');
+      }
     }
     // If user is authenticated but no profile, go to orientation
-    else if (isAuthenticated && !hasProfile && currentScreen === 'splash') {
-      setScreen('orientation');
+    else if (isAuthenticated && !hasProfile) {
+      // Only redirect if not already in onboarding flow
+      if (!onboardingScreens.includes(currentScreen)) {
+        setScreen('orientation');
+      }
     }
   }, [isAuthenticated, hasProfile, loading, currentScreen, setScreen]);
 
