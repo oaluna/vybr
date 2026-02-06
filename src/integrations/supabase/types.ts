@@ -102,7 +102,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          age: number
+          age?: number
           avatar?: string | null
           bio?: string | null
           compatibility?: number | null
@@ -111,7 +111,7 @@ export type Database = {
           id?: string
           interests?: string[] | null
           last_active?: string | null
-          name: string
+          name?: string
           orientation?: string | null
           updated_at?: string
           user_id: string
