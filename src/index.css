@@ -6,58 +6,58 @@
 
 @layer base {
   :root {
-    /* Deep, intimate dark palette with Vybr magenta-coral accents */
-    --background: 280 20% 12%;
-    --foreground: 330 20% 95%;
+    /* Deep blue-tinted palette with Vybr magenta-coral accents */
+    --background: 230 25% 14%;
+    --foreground: 220 20% 96%;
 
-    --card: 280 18% 16%;
-    --card-foreground: 330 20% 95%;
+    --card: 230 22% 18%;
+    --card-foreground: 220 20% 96%;
 
-    --popover: 280 18% 16%;
-    --popover-foreground: 330 20% 95%;
+    --popover: 230 22% 18%;
+    --popover-foreground: 220 20% 96%;
 
     /* Vybr magenta primary - matches logo #F41172 */
     --primary: 337 91% 52%;
-    --primary-foreground: 280 20% 8%;
+    --primary-foreground: 230 25% 10%;
 
     /* Coral-pink secondary - matches logo #FD3269 */
-    --secondary: 348 80% 45%;
-    --secondary-foreground: 330 20% 95%;
+    --secondary: 348 80% 48%;
+    --secondary-foreground: 220 20% 96%;
 
-    --muted: 280 16% 22%;
-    --muted-foreground: 280 10% 60%;
+    --muted: 230 18% 24%;
+    --muted-foreground: 230 12% 62%;
 
     /* Soft pink accent for highlights */
     --accent: 340 70% 65%;
-    --accent-foreground: 280 25% 6%;
+    --accent-foreground: 230 25% 10%;
 
     --destructive: 0 70% 55%;
-    --destructive-foreground: 330 20% 95%;
+    --destructive-foreground: 220 20% 96%;
 
-    --border: 280 15% 24%;
-    --input: 280 15% 20%;
+    --border: 230 18% 28%;
+    --input: 230 18% 22%;
     --ring: 337 91% 52%;
 
     --radius: 1rem;
 
     /* Vybr gradients - magenta to coral */
     --gradient-primary: linear-gradient(135deg, #F41172, #FD3269);
-    --gradient-card: linear-gradient(180deg, hsl(280 18% 18%), hsl(280 18% 14%));
+    --gradient-card: linear-gradient(180deg, hsl(230 22% 20%), hsl(230 22% 16%));
     --gradient-glow: radial-gradient(ellipse at center, hsl(337 91% 52% / 0.2), transparent 70%);
-    --gradient-match: linear-gradient(135deg, hsl(337 91% 52% / 0.25), hsl(348 80% 45% / 0.15));
+    --gradient-match: linear-gradient(135deg, hsl(337 91% 52% / 0.25), hsl(348 80% 48% / 0.15));
 
     /* Shadows with Vybr magenta glow */
     --shadow-glow: 0 0 40px hsl(337 91% 52% / 0.35);
-    --shadow-card: 0 8px 32px hsl(280 20% 8% / 0.5);
-    --shadow-elevated: 0 20px 60px hsl(280 20% 8% / 0.7);
+    --shadow-card: 0 8px 32px hsl(230 25% 10% / 0.5);
+    --shadow-elevated: 0 20px 60px hsl(230 25% 10% / 0.7);
 
-    --sidebar-background: 280 20% 12%;
-    --sidebar-foreground: 330 20% 95%;
+    --sidebar-background: 230 25% 14%;
+    --sidebar-foreground: 220 20% 96%;
     --sidebar-primary: 337 91% 52%;
-    --sidebar-primary-foreground: 280 20% 8%;
-    --sidebar-accent: 280 16% 22%;
-    --sidebar-accent-foreground: 330 20% 95%;
-    --sidebar-border: 280 15% 24%;
+    --sidebar-primary-foreground: 230 25% 10%;
+    --sidebar-accent: 230 18% 24%;
+    --sidebar-accent-foreground: 220 20% 96%;
+    --sidebar-border: 230 18% 28%;
     --sidebar-ring: 337 91% 52%;
   }
 }
@@ -148,10 +148,10 @@
   .animated-gradient-bg {
     background: linear-gradient(
       -45deg,
-      hsl(280 20% 12%),
-      hsl(300 18% 16%),
-      hsl(337 35% 18%),
-      hsl(280 20% 14%)
+      hsl(230 25% 14%),
+      hsl(240 20% 18%),
+      hsl(337 30% 20%),
+      hsl(230 25% 16%)
     );
     background-size: 400% 400%;
     animation: gradient-shift 15s ease infinite;
