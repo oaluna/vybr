@@ -7,25 +7,25 @@
 @layer base {
   :root {
     /* Deep, intimate dark palette with Vybr magenta-coral accents */
-    --background: 280 25% 6%;
+    --background: 280 20% 12%;
     --foreground: 330 20% 95%;
 
-    --card: 280 20% 10%;
+    --card: 280 18% 16%;
     --card-foreground: 330 20% 95%;
 
-    --popover: 280 20% 10%;
+    --popover: 280 18% 16%;
     --popover-foreground: 330 20% 95%;
 
     /* Vybr magenta primary - matches logo #F41172 */
     --primary: 337 91% 52%;
-    --primary-foreground: 280 25% 6%;
+    --primary-foreground: 280 20% 8%;
 
     /* Coral-pink secondary - matches logo #FD3269 */
     --secondary: 348 80% 45%;
     --secondary-foreground: 330 20% 95%;
 
-    --muted: 280 18% 15%;
-    --muted-foreground: 280 10% 55%;
+    --muted: 280 16% 22%;
+    --muted-foreground: 280 10% 60%;
 
     /* Soft pink accent for highlights */
     --accent: 340 70% 65%;
@@ -34,30 +34,30 @@
     --destructive: 0 70% 55%;
     --destructive-foreground: 330 20% 95%;
 
-    --border: 280 15% 18%;
-    --input: 280 15% 15%;
+    --border: 280 15% 24%;
+    --input: 280 15% 20%;
     --ring: 337 91% 52%;
 
     --radius: 1rem;
 
     /* Vybr gradients - magenta to coral */
     --gradient-primary: linear-gradient(135deg, #F41172, #FD3269);
-    --gradient-card: linear-gradient(180deg, hsl(280 20% 12%), hsl(280 20% 8%));
+    --gradient-card: linear-gradient(180deg, hsl(280 18% 18%), hsl(280 18% 14%));
     --gradient-glow: radial-gradient(ellipse at center, hsl(337 91% 52% / 0.2), transparent 70%);
     --gradient-match: linear-gradient(135deg, hsl(337 91% 52% / 0.25), hsl(348 80% 45% / 0.15));
 
     /* Shadows with Vybr magenta glow */
     --shadow-glow: 0 0 40px hsl(337 91% 52% / 0.35);
-    --shadow-card: 0 8px 32px hsl(280 25% 4% / 0.6);
-    --shadow-elevated: 0 20px 60px hsl(280 25% 4% / 0.8);
+    --shadow-card: 0 8px 32px hsl(280 20% 8% / 0.5);
+    --shadow-elevated: 0 20px 60px hsl(280 20% 8% / 0.7);
 
-    --sidebar-background: 280 25% 6%;
+    --sidebar-background: 280 20% 12%;
     --sidebar-foreground: 330 20% 95%;
     --sidebar-primary: 337 91% 52%;
-    --sidebar-primary-foreground: 280 25% 6%;
-    --sidebar-accent: 280 18% 15%;
+    --sidebar-primary-foreground: 280 20% 8%;
+    --sidebar-accent: 280 16% 22%;
     --sidebar-accent-foreground: 330 20% 95%;
-    --sidebar-border: 280 15% 18%;
+    --sidebar-border: 280 15% 24%;
     --sidebar-ring: 337 91% 52%;
   }
 }
@@ -148,10 +148,10 @@
   .animated-gradient-bg {
     background: linear-gradient(
       -45deg,
-      hsl(280 25% 6%),
-      hsl(300 20% 10%),
-      hsl(337 40% 12%),
-      hsl(280 25% 8%)
+      hsl(280 20% 12%),
+      hsl(300 18% 16%),
+      hsl(337 35% 18%),
+      hsl(280 20% 14%)
     );
     background-size: 400% 400%;
     animation: gradient-shift 15s ease infinite;
