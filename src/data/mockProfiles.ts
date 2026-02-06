@@ -103,25 +103,15 @@ const lastActiveOptions = [
   '1 day ago', '2 days ago'
 ];
 
-// Avatar URL patterns (using Unsplash with different photo IDs)
-const femaleAvatarIds = [
-  'rDEOVtE7vOs', 'mEZ3PoFGs_k', 'WNoLnJo7tS8', 'NhLwSKGJfYc', 'IF9TK5Uy-KI',
-  '6W4F62sN_yI', 'p0hDztR8-CA', 'v3OlBE6-fhU', 'rriAI0nhcbc', 'B4TjXnI0Y2c',
-  'QXevDflbl8A', 'UZ3WkA7Kz1E', 'JyVcAIUAcPM', 'J1OScm_uHUQ', 'KcKP6M6r0xA',
-  'iEEBWgY_6lA', 'sibVwORYqs0', '7YVZYZeITc8', 'q1zbOnMIB4w', 'T9Bg_WLOHq0'
-];
+// Avatar URLs using randomuser.me which provides reliable profile photos
+const getFemaleAvatar = (index: number) => 
+  `https://randomuser.me/api/portraits/women/${index % 100}.jpg`;
 
-const maleAvatarIds = [
-  'iFgRcqHznqg', 'ZHvM3XIOHoE', 'C8Ta0gwPbQg', 'd2MSDujJl2g', 'MTZTGvDsHFY',
-  'oqN9GkOXvr0', '7omHUGhhmZ0', '1-aWOc_7jXs', 'WMD64tMfc4k', 'nKC772R_qog',
-  'DItYlc26zVI', '6anudmpILw4', 'Kt5hRENuotI', '3TLl_97HNJo', 'pAs4IM6OGWI',
-  'cLxVx1p7w5o', 'mUqXBKrWSWI', 'QCF2ykBsC2I', 'X6Uj51n5CE8', 'oeI_oCgIJRY'
-];
+const getMaleAvatar = (index: number) => 
+  `https://randomuser.me/api/portraits/men/${index % 100}.jpg`;
 
-const nonbinaryAvatarIds = [
-  'sxQz2VfoFBE', 'Zz5LQe-VSMY', '4kMFMpdYMKA', 'pTrhfmj2jDA', 'YPGqRc_0j7g',
-  'QsGtSoNLbxw', 'mjRwhvqEC0U', 'cANUo1_f6jY', 'WxM465oM4j4', 'lBhhnhndpE0'
-];
+const getNonbinaryAvatar = (index: number) => 
+  `https://randomuser.me/api/portraits/lego/${index % 10}.jpg`;
 
 // Helper to get random items from array
 const getRandomItems = <T>(array: T[], count: number): T[] => {
@@ -143,12 +133,11 @@ const generateMockProfiles = (): (Match & { gender: string })[] => {
   // Generate ~120 female profiles (40%)
   for (let i = 0; i < 120; i++) {
     const name = getRandomItem(femaleNames);
-    const avatarId = getRandomItem(femaleAvatarIds);
     profiles.push({
       id: `mock-female-${i + 1}`,
       name,
       age: getRandomNumber(18, 45),
-      avatar: `https://images.unsplash.com/photo-${avatarId}?w=400&h=400&fit=crop&crop=face`,
+      avatar: getFemaleAvatar(i),
       compatibility: getRandomNumber(50, 99),
       interests: getRandomItems(allInterests, getRandomNumber(3, 5)),
       lastActive: getRandomItem(lastActiveOptions),
@@ -160,12 +149,11 @@ const generateMockProfiles = (): (Match & { gender: string })[] => {
   // Generate ~120 male profiles (40%)
   for (let i = 0; i < 120; i++) {
     const name = getRandomItem(maleNames);
-    const avatarId = getRandomItem(maleAvatarIds);
     profiles.push({
       id: `mock-male-${i + 1}`,
       name,
       age: getRandomNumber(18, 45),
-      avatar: `https://images.unsplash.com/photo-${avatarId}?w=400&h=400&fit=crop&crop=face`,
+      avatar: getMaleAvatar(i),
       compatibility: getRandomNumber(50, 99),
       interests: getRandomItems(allInterests, getRandomNumber(3, 5)),
       lastActive: getRandomItem(lastActiveOptions),
@@ -177,12 +165,11 @@ const generateMockProfiles = (): (Match & { gender: string })[] => {
   // Generate ~60 nonbinary profiles (20%)
   for (let i = 0; i < 60; i++) {
     const name = getRandomItem(nonbinaryNames);
-    const avatarId = getRandomItem(nonbinaryAvatarIds);
     profiles.push({
       id: `mock-nonbinary-${i + 1}`,
       name,
       age: getRandomNumber(18, 45),
-      avatar: `https://images.unsplash.com/photo-${avatarId}?w=400&h=400&fit=crop&crop=face`,
+      avatar: getNonbinaryAvatar(i),
       compatibility: getRandomNumber(50, 99),
       interests: getRandomItems(allInterests, getRandomNumber(3, 5)),
       lastActive: getRandomItem(lastActiveOptions),
