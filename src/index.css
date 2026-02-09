@@ -139,10 +139,30 @@
   @keyframes gradient-shift {
     0%, 100% {
       background-position: 0% 50%;
+      background-size: 400% 400%;
+    }
+    25% {
+      background-position: 50% 100%;
+      background-size: 450% 450%;
     }
     50% {
       background-position: 100% 50%;
+      background-size: 400% 400%;
     }
+    75% {
+      background-position: 50% 0%;
+      background-size: 350% 350%;
+    }
+  }
+
+  @keyframes bg-pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+
+  @keyframes bg-wave {
+    0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+    100% { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
   }
 
   .animated-gradient-bg {
@@ -151,10 +171,32 @@
       hsl(230 25% 14%),
       hsl(240 20% 18%),
       hsl(337 30% 20%),
-      hsl(230 25% 16%)
+      hsl(230 25% 16%),
+      hsl(235 22% 16%)
     );
     background-size: 400% 400%;
-    animation: gradient-shift 15s ease infinite;
+    animation: gradient-shift 18s ease infinite;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .animated-gradient-bg::before,
+  .animated-gradient-bg::after {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  .animated-gradient-bg::before {
+    background: radial-gradient(ellipse at center, hsl(337 91% 52% / 0.08), transparent 60%);
+    animation: bg-pulse 6s ease-in-out infinite, bg-wave 25s linear infinite;
+  }
+
+  .animated-gradient-bg::after {
+    background: radial-gradient(ellipse at center, hsl(230 40% 40% / 0.06), transparent 55%);
+    animation: bg-pulse 8s ease-in-out infinite 3s, bg-wave 30s linear infinite reverse;
   }
 
   @keyframes aurora {
