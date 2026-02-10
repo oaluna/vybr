@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SlidersHorizontal, ArrowUp } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 import { useAppStore } from '@/store/appStore';
 import { BottomTabNav } from '@/components/BottomTabNav';
+import { ScrollToTopButton } from '@/components/ScrollToTopButton';
 import { ProfileCard } from '@/components/matches/ProfileCard';
 import { MosaicTile } from '@/components/matches/MosaicTile';
 import {
@@ -34,21 +35,7 @@ export const MatchesScreen = () => {
   const { isMatchSaved, saveMatch, unsaveMatch } = useSavedMatches(user?.id);
   const [sortBy, setSortBy] = useState<SortOption>('compatibility');
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null);
-  const [showScrollTop, setShowScrollTop] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setShowScrollTop(!entry.isIntersecting),
-      { threshold: 0 }
-    );
-    if (headerRef.current) observer.observe(headerRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
 
   const sortedMatches = [...matches].sort((a, b) => {
     switch (sortBy) {
@@ -133,21 +120,7 @@ export const MatchesScreen = () => {
         )}
       </AnimatePresence>
 
-      {/* Scroll to top button */}
-      <AnimatePresence>
-        {showScrollTop && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={scrollToTop}
-            className="fixed bottom-28 right-5 z-50 w-11 h-11 rounded-full gradient-primary shadow-glow flex items-center justify-center"
-            aria-label="Scroll to top"
-          >
-            <ArrowUp className="w-5 h-5 text-primary-foreground" />
-          </motion.button>
-        )}
-      </AnimatePresence>
+      <ScrollToTopButton observeRef={headerRef} />
 
       <BottomTabNav />
     </div>
