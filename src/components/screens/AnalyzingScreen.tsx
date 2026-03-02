@@ -14,8 +14,8 @@ export const AnalyzingScreen = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(0);
 
-  // Start fetching immediately on mount
-  useMatchFetching({ enabled: true });
+  // Use the extracted hook for match fetching
+  useMatchFetching({ enabled: progress === 100 });
 
   useEffect(() => {
     const stepInterval = setInterval(() => {
@@ -27,7 +27,6 @@ export const AnalyzingScreen = () => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           clearInterval(stepInterval);
-          // Animation complete
           return 100;
         }
         return prev + 2;
@@ -40,24 +39,25 @@ export const AnalyzingScreen = () => {
     };
   }, []);
 
-  // If matches arrived before animation, wait for animation.
-  // If animation finished before matches, the hook will navigate when ready.
-  // This is handled by the hook calling setScreen('matches') directly.
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6">
       {/* Scanning animation */}
       <div className="relative w-48 h-48 mb-12">
+        {/* Outer ring */}
         <motion.div
           className="absolute inset-0 rounded-full border-2 border-primary/30"
           animate={{ rotate: 360 }}
           transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
         />
+        
+        {/* Inner ring */}
         <motion.div
           className="absolute inset-4 rounded-full border-2 border-primary/50"
           animate={{ rotate: -360 }}
           transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
         />
+
+        {/* Center pulse */}
         <div className="absolute inset-8 rounded-full gradient-primary shadow-glow flex items-center justify-center">
           <motion.div
             animate={{ scale: [1, 1.1, 1] }}
@@ -67,6 +67,8 @@ export const AnalyzingScreen = () => {
             {progress}%
           </motion.div>
         </div>
+
+        {/* Scanning line */}
         <div className="absolute inset-0 overflow-hidden rounded-full">
           <motion.div
             className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent"
@@ -74,6 +76,8 @@ export const AnalyzingScreen = () => {
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
+
+        {/* Ripple effects */}
         {[0, 1, 2].map((i) => (
           <motion.div
             key={i}
@@ -90,6 +94,7 @@ export const AnalyzingScreen = () => {
         ))}
       </div>
 
+      {/* Status text */}
       <motion.div
         key={currentStep}
         initial={{ opacity: 0, y: 10 }}
@@ -104,6 +109,7 @@ export const AnalyzingScreen = () => {
         </p>
       </motion.div>
 
+      {/* Progress bar */}
       <div className="mt-8 w-full max-w-xs">
         <div className="h-1 bg-muted rounded-full overflow-hidden">
           <motion.div

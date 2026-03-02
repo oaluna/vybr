@@ -1,54 +1,82 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useAppStore } from '@/store/appStore';
-import { supabase } from '@/integrations/supabase/client';
 import { mockProfiles } from '@/data/mockProfiles';
 import type { Match } from '@/types';
 
+/* ====== ORIGINAL DATABASE FETCH - UNCOMMENT TO RESTORE ======
+import { supabase } from '@/integrations/supabase/client';
+
+// NOTE: To restore database fetching:
+// 1. Uncomment this entire block
+// 2. Remove the mockProfiles import above
+// 3. Replace the mock data logic in fetchMatches with the database query below
+
+const fetchFromDatabase = async (orientation: string) => {
+  let query = supabase
+    .from('profiles')
+    .select('*')
+    .order('compatibility', { ascending: false })
+    .limit(50);
+
+  if (orientation === 'women') {
+    query = query.eq('gender', 'female');
+  } else if (orientation === 'men') {
+    query = query.eq('gender', 'male');
+  }
+  // "everyone" - no filter needed
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error('Error fetching profiles:', error);
+    return null;
+  }
+
+  if (data && data.length > 0) {
+    return data.map((profile) => ({
+      id: profile.user_id,
+      name: profile.name,
+      age: profile.age,
+      avatar: profile.avatar,
+      compatibility: profile.compatibility,
+      interests: profile.interests,
+      lastActive: profile.last_active,
+      bio: profile.bio,
+    }));
+  }
+  return null;
+};
+====== END ORIGINAL DATABASE FETCH ====== */
+
 interface UseMatchFetchingOptions {
-  /** Start fetching immediately when true */
   enabled: boolean;
-  /** Called once results are ready (or fallback used) */
   onComplete?: () => void;
 }
 
 export const useMatchFetching = ({ enabled, onComplete }: UseMatchFetchingOptions) => {
   const { orientation, setMatches, addNotification, setScreen } = useAppStore();
-  const called = useRef(false);
 
   useEffect(() => {
-    if (!enabled || called.current) return;
-    called.current = true;
+    if (!enabled) return;
 
     const fetchMatches = async () => {
-      let matches: Match[] | null = null;
+      // MOCK DATA - Remove this section and uncomment the database fetch above to restore
+      let filteredProfiles = mockProfiles;
 
-      try {
-        const { data, error } = await supabase.functions.invoke('matchmaking');
-
-        if (!error && data?.matches?.length) {
-          matches = data.matches as Match[];
-        }
-      } catch (err) {
-        console.error('Matchmaking function error:', err);
+      if (orientation === 'women') {
+        filteredProfiles = mockProfiles.filter(p => p.gender === 'female');
+      } else if (orientation === 'men') {
+        filteredProfiles = mockProfiles.filter(p => p.gender === 'male');
       }
+      // "everyone" - no filter needed
 
-      // Fallback to mock data
-      if (!matches || matches.length === 0) {
-        console.log('Falling back to mock profiles');
-        let filteredProfiles = mockProfiles;
+      // Sort by compatibility and take top 50
+      const sortedProfiles = [...filteredProfiles]
+        .sort((a, b) => b.compatibility - a.compatibility)
+        .slice(0, 50);
 
-        if (orientation === 'women') {
-          filteredProfiles = mockProfiles.filter(p => p.gender === 'female');
-        } else if (orientation === 'men') {
-          filteredProfiles = mockProfiles.filter(p => p.gender === 'male');
-        }
-
-        const sortedProfiles = [...filteredProfiles]
-          .sort((a, b) => b.compatibility - a.compatibility)
-          .slice(0, 50);
-
-        matches = sortedProfiles.map(({ gender, ...profile }) => profile);
-      }
+      // Map to Match interface (excluding gender field)
+      const matches: Match[] = sortedProfiles.map(({ gender, ...profile }) => profile);
 
       if (matches.length > 0) {
         setMatches(matches);
@@ -64,6 +92,7 @@ export const useMatchFetching = ({ enabled, onComplete }: UseMatchFetchingOption
       onComplete?.();
     };
 
-    fetchMatches();
+    const timer = setTimeout(fetchMatches, 500);
+    return () => clearTimeout(timer);
   }, [enabled, orientation, setScreen, setMatches, addNotification, onComplete]);
 };
