@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useMatchFetching } from '@/hooks/useMatchFetching';
 
 const analysisSteps = [
@@ -13,15 +13,9 @@ const analysisSteps = [
 export const AnalyzingScreen = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [matchesReady, setMatchesReady] = useState(false);
-  const [animationDone, setAnimationDone] = useState(false);
-
-  const onMatchComplete = useCallback(() => {
-    setMatchesReady(true);
-  }, []);
 
   // Start fetching immediately on mount
-  useMatchFetching({ enabled: true, onComplete: onMatchComplete });
+  useMatchFetching({ enabled: true });
 
   useEffect(() => {
     const stepInterval = setInterval(() => {
@@ -33,7 +27,7 @@ export const AnalyzingScreen = () => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           clearInterval(stepInterval);
-          setAnimationDone(true);
+          // Animation complete
           return 100;
         }
         return prev + 2;
