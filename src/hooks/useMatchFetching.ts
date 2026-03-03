@@ -1,57 +1,29 @@
 import { useEffect } from 'react';
 import { useAppStore } from '@/store/appStore';
+import { supabase } from '@/integrations/supabase/client';
 import { mockProfiles } from '@/data/mockProfiles';
 import type { Match } from '@/types';
-
-/* ====== ORIGINAL DATABASE FETCH - UNCOMMENT TO RESTORE ======
-import { supabase } from '@/integrations/supabase/client';
-
-// NOTE: To restore database fetching:
-// 1. Uncomment this entire block
-// 2. Remove the mockProfiles import above
-// 3. Replace the mock data logic in fetchMatches with the database query below
-
-const fetchFromDatabase = async (orientation: string) => {
-  let query = supabase
-    .from('profiles')
-    .select('*')
-    .order('compatibility', { ascending: false })
-    .limit(50);
-
-  if (orientation === 'women') {
-    query = query.eq('gender', 'female');
-  } else if (orientation === 'men') {
-    query = query.eq('gender', 'male');
-  }
-  // "everyone" - no filter needed
-
-  const { data, error } = await query;
-
-  if (error) {
-    console.error('Error fetching profiles:', error);
-    return null;
-  }
-
-  if (data && data.length > 0) {
-    return data.map((profile) => ({
-      id: profile.user_id,
-      name: profile.name,
-      age: profile.age,
-      avatar: profile.avatar,
-      compatibility: profile.compatibility,
-      interests: profile.interests,
-      lastActive: profile.last_active,
-      bio: profile.bio,
-    }));
-  }
-  return null;
-};
-====== END ORIGINAL DATABASE FETCH ====== */
 
 interface UseMatchFetchingOptions {
   enabled: boolean;
   onComplete?: () => void;
 }
+
+const fallbackToMockData = (orientation: string | null): Match[] => {
+  let filteredProfiles = mockProfiles;
+
+  if (orientation === 'women') {
+    filteredProfiles = mockProfiles.filter(p => p.gender === 'female');
+  } else if (orientation === 'men') {
+    filteredProfiles = mockProfiles.filter(p => p.gender === 'male');
+  }
+
+  const sortedProfiles = [...filteredProfiles]
+    .sort((a, b) => b.compatibility - a.compatibility)
+    .slice(0, 50);
+
+  return sortedProfiles.map(({ gender, ...profile }) => profile);
+};
 
 export const useMatchFetching = ({ enabled, onComplete }: UseMatchFetchingOptions) => {
   const { orientation, setMatches, addNotification, setScreen } = useAppStore();
@@ -60,23 +32,39 @@ export const useMatchFetching = ({ enabled, onComplete }: UseMatchFetchingOption
     if (!enabled) return;
 
     const fetchMatches = async () => {
-      // MOCK DATA - Remove this section and uncomment the database fetch above to restore
-      let filteredProfiles = mockProfiles;
+      let matches: Match[] = [];
 
-      if (orientation === 'women') {
-        filteredProfiles = mockProfiles.filter(p => p.gender === 'female');
-      } else if (orientation === 'men') {
-        filteredProfiles = mockProfiles.filter(p => p.gender === 'male');
+      try {
+        // Try AI-powered matching via edge function
+        const { data: { session } } = await supabase.auth.getSession();
+
+        if (session) {
+          const { data, error } = await supabase.functions.invoke('calculate-compatibility', {
+            body: { orientation: orientation || 'everyone' },
+          });
+
+          if (!error && data?.matches?.length > 0) {
+            matches = data.matches.map((m: any) => ({
+              id: m.id,
+              name: m.name,
+              age: m.age,
+              avatar: m.avatar,
+              compatibility: m.compatibility,
+              interests: m.interests,
+              lastActive: m.lastActive,
+              bio: m.bio,
+            }));
+          } else {
+            console.warn('Edge function failed, falling back to mock data:', error);
+            matches = fallbackToMockData(orientation);
+          }
+        } else {
+          matches = fallbackToMockData(orientation);
+        }
+      } catch (err) {
+        console.warn('Match fetching error, using mock data:', err);
+        matches = fallbackToMockData(orientation);
       }
-      // "everyone" - no filter needed
-
-      // Sort by compatibility and take top 50
-      const sortedProfiles = [...filteredProfiles]
-        .sort((a, b) => b.compatibility - a.compatibility)
-        .slice(0, 50);
-
-      // Map to Match interface (excluding gender field)
-      const matches: Match[] = sortedProfiles.map(({ gender, ...profile }) => profile);
 
       if (matches.length > 0) {
         setMatches(matches);
@@ -84,7 +72,7 @@ export const useMatchFetching = ({ enabled, onComplete }: UseMatchFetchingOption
           id: Date.now().toString(),
           type: 'match',
           matchId: matches[0].id,
-          text: `You matched with ${matches[0].name}! ${matches[0].compatibility}% compatible`
+          text: `You matched with ${matches[0].name}! ${matches[0].compatibility}% compatible`,
         });
       }
 
