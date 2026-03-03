@@ -6,59 +6,59 @@
 
 @layer base {
   :root {
-    /* Deep blue-tinted palette with Vybr magenta-coral accents */
-    --background: 230 25% 14%;
-    --foreground: 220 20% 96%;
+    /* Warm, hopeful palette — aliceblue base with rosy coral accents */
+    --background: 210 50% 96%;
+    --foreground: 220 25% 18%;
 
-    --card: 230 22% 18%;
-    --card-foreground: 220 20% 96%;
+    --card: 210 40% 99%;
+    --card-foreground: 220 25% 18%;
 
-    --popover: 230 22% 18%;
-    --popover-foreground: 220 20% 96%;
+    --popover: 210 40% 99%;
+    --popover-foreground: 220 25% 18%;
 
-    /* Vybr magenta primary - matches logo #F41172 */
-    --primary: 337 91% 52%;
-    --primary-foreground: 230 25% 10%;
+    /* Warm rose-coral primary */
+    --primary: 345 72% 56%;
+    --primary-foreground: 0 0% 100%;
 
-    /* Coral-pink secondary - matches logo #FD3269 */
-    --secondary: 348 80% 48%;
-    --secondary-foreground: 220 20% 96%;
+    /* Soft terracotta secondary */
+    --secondary: 15 60% 58%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 230 18% 24%;
-    --muted-foreground: 230 12% 62%;
+    --muted: 210 30% 91%;
+    --muted-foreground: 220 15% 46%;
 
-    /* Soft pink accent for highlights */
-    --accent: 340 70% 65%;
-    --accent-foreground: 230 25% 10%;
+    /* Peachy-gold accent for warmth */
+    --accent: 28 80% 62%;
+    --accent-foreground: 220 25% 14%;
 
-    --destructive: 0 70% 55%;
-    --destructive-foreground: 220 20% 96%;
+    --destructive: 0 65% 52%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 230 18% 28%;
-    --input: 230 18% 22%;
-    --ring: 337 91% 52%;
+    --border: 210 25% 88%;
+    --input: 210 25% 92%;
+    --ring: 345 72% 56%;
 
     --radius: 1rem;
 
-    /* Vybr gradients - magenta to coral */
-    --gradient-primary: linear-gradient(135deg, #F41172, #FD3269);
-    --gradient-card: linear-gradient(180deg, hsl(230 22% 20%), hsl(230 22% 16%));
-    --gradient-glow: radial-gradient(ellipse at center, hsl(337 91% 52% / 0.2), transparent 70%);
-    --gradient-match: linear-gradient(135deg, hsl(337 91% 52% / 0.25), hsl(348 80% 48% / 0.15));
+    /* Warm gradients — rose to peach */
+    --gradient-primary: linear-gradient(135deg, hsl(345 72% 56%), hsl(15 60% 58%));
+    --gradient-card: linear-gradient(180deg, hsl(210 40% 100%), hsl(210 30% 97%));
+    --gradient-glow: radial-gradient(ellipse at center, hsl(345 72% 56% / 0.12), transparent 70%);
+    --gradient-match: linear-gradient(135deg, hsl(345 72% 56% / 0.12), hsl(28 80% 62% / 0.08));
 
-    /* Shadows with Vybr magenta glow */
-    --shadow-glow: 0 0 40px hsl(337 91% 52% / 0.35);
-    --shadow-card: 0 8px 32px hsl(230 25% 10% / 0.5);
-    --shadow-elevated: 0 20px 60px hsl(230 25% 10% / 0.7);
+    /* Soft warm shadows */
+    --shadow-glow: 0 0 40px hsl(345 72% 56% / 0.18);
+    --shadow-card: 0 8px 32px hsl(220 25% 18% / 0.06);
+    --shadow-elevated: 0 20px 60px hsl(220 25% 18% / 0.1);
 
-    --sidebar-background: 230 25% 14%;
-    --sidebar-foreground: 220 20% 96%;
-    --sidebar-primary: 337 91% 52%;
-    --sidebar-primary-foreground: 230 25% 10%;
-    --sidebar-accent: 230 18% 24%;
-    --sidebar-accent-foreground: 220 20% 96%;
-    --sidebar-border: 230 18% 28%;
-    --sidebar-ring: 337 91% 52%;
+    --sidebar-background: 210 50% 96%;
+    --sidebar-foreground: 220 25% 18%;
+    --sidebar-primary: 345 72% 56%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 30% 91%;
+    --sidebar-accent-foreground: 220 25% 18%;
+    --sidebar-border: 210 25% 88%;
+    --sidebar-ring: 345 72% 56%;
   }
 }
 
@@ -79,7 +79,7 @@
 
 @layer utilities {
   .glass {
-    @apply bg-card/80 backdrop-blur-xl border border-white/5;
+    @apply bg-card/80 backdrop-blur-xl border border-foreground/5;
   }
 
   .gradient-primary {
@@ -168,11 +168,11 @@
   .animated-gradient-bg {
     background: linear-gradient(
       -45deg,
-      hsl(230 25% 14%),
-      hsl(240 20% 18%),
-      hsl(337 30% 20%),
-      hsl(230 25% 16%),
-      hsl(235 22% 16%)
+      hsl(210 50% 96%),
+      hsl(220 40% 94%),
+      hsl(345 30% 95%),
+      hsl(28 40% 96%),
+      hsl(210 45% 95%)
     );
     background-size: 400% 400%;
     animation: gradient-shift 18s ease infinite;
@@ -190,12 +190,12 @@
   }
 
   .animated-gradient-bg::before {
-    background: radial-gradient(ellipse at center, hsl(337 91% 52% / 0.08), transparent 60%);
+    background: radial-gradient(ellipse at center, hsl(345 72% 56% / 0.06), transparent 60%);
     animation: bg-pulse 6s ease-in-out infinite, bg-wave 25s linear infinite;
   }
 
   .animated-gradient-bg::after {
-    background: radial-gradient(ellipse at center, hsl(230 40% 40% / 0.06), transparent 55%);
+    background: radial-gradient(ellipse at center, hsl(28 80% 62% / 0.05), transparent 55%);
     animation: bg-pulse 8s ease-in-out infinite 3s, bg-wave 30s linear infinite reverse;
   }
 
