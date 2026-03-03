@@ -1,103 +1,48 @@
 
 
-# Plan: Add 300 Mock Test Profiles for Matches Screen
+## AI-Powered Compatibility Matching
 
-## Overview
+### What we're building
+Replace the random compatibility scores (currently `getRandomNumber(50, 99)`) with an AI-powered engine that calculates meaningful scores based on the authenticated user's profile compared to each potential match's profile.
 
-Create a file with 300 hardcoded mock profiles and modify the `useMatchFetching` hook to use this mock data instead of fetching from the database. The original database fetch code will be commented out with a note explaining how to restore it.
-
-## Implementation
-
-### 1. Create Mock Data File
-
-**New file: `src/data/mockProfiles.ts`**
-
-Generate 300 diverse test profiles with:
-- Unique UUIDs for each profile
-- Mix of names (male, female, gender-neutral)
-- Ages ranging from 18-45
-- Varied compatibility scores (50-99%)
-- Realistic Unsplash avatar URLs
-- Diverse interests (music, sports, travel, tech, art, food, etc.)
-- Varied "last active" times
-- Unique bios
+### Architecture
 
 ```text
-Data structure per profile:
-+------------------+----------------------------------------+
-| Field            | Generation Strategy                    |
-+------------------+----------------------------------------+
-| id               | Sequential UUID-like string            |
-| name             | From curated list of 100+ names        |
-| age              | Random 18-45                           |
-| avatar           | Unsplash face photos (50+ variations)  |
-| compatibility    | Random 50-99                           |
-| interests        | 3-5 random from pool of 30+ interests  |
-| lastActive       | "Just now", "X min", "X hours", etc.   |
-| bio              | From pool of 50+ unique bios           |
-+------------------+----------------------------------------+
+AnalyzingScreen (progress=100)
+  → useMatchFetching (enabled)
+    → supabase.functions.invoke('calculate-compatibility')
+      → Edge Function reads user's profile from DB
+      → Edge Function reads candidate profiles from DB
+      → Calls Lovable AI (Gemini Flash) with batch prompt
+      → Returns profiles with AI-calculated scores
+    → Falls back to mock data if AI fails
+  → setMatches() → navigate to MatchesScreen
 ```
 
-### 2. Modify Match Fetching Hook
+### Implementation steps
 
-**File: `src/hooks/useMatchFetching.ts`**
+1. **Create edge function `calculate-compatibility`**
+   - Accept `{ user_id, orientation }` in the request body
+   - Read the user's `user_profiles` record (interests, bio, age, gender)
+   - Read candidate profiles from the `profiles` table, filtered by orientation
+   - Batch candidates into groups (~10 at a time) to keep prompts manageable
+   - For each batch, call Lovable AI Gateway (`google/gemini-3-flash-preview`) with tool calling to extract structured output: an array of `{ profile_id, score, reason }`
+   - The prompt will instruct the model to score compatibility 0-100 based on: interest overlap (40%), personality/bio alignment (40%), age proximity (20%)
+   - Merge results, sort by score descending, return top 50
+   - Handle 429/402 errors gracefully
 
-Changes:
-1. Import mock profiles
-2. Comment out the Supabase database fetch code with a clear note
-3. Use mock data directly with same mapping logic
-4. Keep gender filtering working (based on orientation)
+2. **Update `useMatchFetching` hook**
+   - When user is authenticated, call the edge function instead of using mock data
+   - Pass `user_id` and `orientation` to the function
+   - If the edge function fails (network error, no auth, etc.), fall back to mock profiles as today
+   - Map the returned data to the `Match` interface
 
-```typescript
-// NOTE: Database fetch temporarily disabled for testing.
-// To restore, uncomment the Supabase query below and remove the mock data import.
-// Original code start:
-/*
-let query = supabase
-  .from('profiles')
-  .select('*')
-  ...
-*/
-// Original code end
+3. **Update `supabase/config.toml`** — add the new function with `verify_jwt = false` (auth validated in code)
 
-// MOCK DATA - Remove this section and uncomment above to restore database fetch
-import { mockProfiles } from '@/data/mockProfiles';
-// Use mockProfiles instead of database data
-```
-
-### 3. Optional: Update MatchesScreen for Direct Loading
-
-If the user wants profiles to show immediately (even without going through AnalyzingScreen), we can:
-- Add a useEffect in MatchesScreen that loads mock profiles if none exist
-- Or modify the app store to initialize with mock data
-
-## Files Changed
-
-| File | Action |
-|------|--------|
-| `src/data/mockProfiles.ts` | Create (new file with 300 profiles) |
-| `src/hooks/useMatchFetching.ts` | Modify (comment out DB fetch, use mock data) |
-
-## Technical Details
-
-### Mock Profile Generation
-
-The 300 profiles will be generated with this approach:
-- 50 unique avatar URLs from Unsplash
-- 100+ unique first names (diverse cultural backgrounds)
-- 30+ unique interests to create varied combinations
-- 50+ unique bio templates
-- Gender distribution: ~40% female, ~40% male, ~20% nonbinary
-
-### Preserving Original Code
-
-The database fetch code will be wrapped in block comments with clear markers:
-
-```typescript
-/* ====== ORIGINAL DATABASE FETCH - UNCOMMENT TO RESTORE ======
-   ...original code...
-   ====== END ORIGINAL DATABASE FETCH ====== */
-```
-
-This ensures easy restoration when needed.
+### Technical notes
+- Uses `LOVABLE_API_KEY` (already configured) for the AI gateway
+- Uses tool calling for structured JSON extraction (scores + reasons) — more reliable than asking for raw JSON
+- The "reason" field is stored on each match but not displayed yet (future enhancement)
+- Batching prevents token limit issues with 50+ profiles
+- Mock data fallback ensures the app always works even without auth or if AI is unavailable
 
