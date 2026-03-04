@@ -60,6 +60,55 @@
     --sidebar-border: 210 25% 88%;
     --sidebar-ring: 345 72% 56%;
   }
+
+  .dark {
+    /* Cozy dark mode — deep warm navy with the same coral accents */
+    --background: 225 25% 12%;
+    --foreground: 210 30% 92%;
+
+    --card: 225 22% 16%;
+    --card-foreground: 210 30% 92%;
+
+    --popover: 225 22% 16%;
+    --popover-foreground: 210 30% 92%;
+
+    --primary: 345 72% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 15 55% 52%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 225 18% 22%;
+    --muted-foreground: 210 15% 58%;
+
+    --accent: 28 70% 55%;
+    --accent-foreground: 210 30% 92%;
+
+    --destructive: 0 65% 52%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 225 18% 24%;
+    --input: 225 18% 20%;
+    --ring: 345 72% 60%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(345 72% 60%), hsl(15 55% 52%));
+    --gradient-card: linear-gradient(180deg, hsl(225 22% 18%), hsl(225 22% 14%));
+    --gradient-glow: radial-gradient(ellipse at center, hsl(345 72% 60% / 0.2), transparent 70%);
+    --gradient-match: linear-gradient(135deg, hsl(345 72% 60% / 0.2), hsl(28 70% 55% / 0.12));
+
+    --shadow-glow: 0 0 40px hsl(345 72% 60% / 0.3);
+    --shadow-card: 0 8px 32px hsl(225 25% 8% / 0.5);
+    --shadow-elevated: 0 20px 60px hsl(225 25% 8% / 0.6);
+
+    --sidebar-background: 225 25% 12%;
+    --sidebar-foreground: 210 30% 92%;
+    --sidebar-primary: 345 72% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 225 18% 22%;
+    --sidebar-accent-foreground: 210 30% 92%;
+    --sidebar-border: 225 18% 24%;
+    --sidebar-ring: 345 72% 60%;
+  }
 }
 
 @layer base {
@@ -168,7 +217,7 @@
   .animated-gradient-bg {
     background: linear-gradient(
       -45deg,
-      hsl(210 50% 96%),
+      hsl(var(--background)),
       hsl(220 40% 94%),
       hsl(345 30% 95%),
       hsl(28 40% 96%),
@@ -178,6 +227,17 @@
     animation: gradient-shift 18s ease infinite;
     position: relative;
     overflow: hidden;
+  }
+
+  :is(.dark) .animated-gradient-bg {
+    background: linear-gradient(
+      -45deg,
+      hsl(225 25% 12%),
+      hsl(230 20% 15%),
+      hsl(345 20% 16%),
+      hsl(225 22% 14%),
+      hsl(230 18% 13%)
+    );
   }
 
   .animated-gradient-bg::before,
@@ -194,9 +254,17 @@
     animation: bg-pulse 6s ease-in-out infinite, bg-wave 25s linear infinite;
   }
 
+  :is(.dark) .animated-gradient-bg::before {
+    background: radial-gradient(ellipse at center, hsl(345 72% 60% / 0.1), transparent 60%);
+  }
+
   .animated-gradient-bg::after {
     background: radial-gradient(ellipse at center, hsl(28 80% 62% / 0.05), transparent 55%);
     animation: bg-pulse 8s ease-in-out infinite 3s, bg-wave 30s linear infinite reverse;
+  }
+
+  :is(.dark) .animated-gradient-bg::after {
+    background: radial-gradient(ellipse at center, hsl(28 70% 55% / 0.08), transparent 55%);
   }
 
   @keyframes aurora {
