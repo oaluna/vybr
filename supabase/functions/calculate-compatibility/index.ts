@@ -169,6 +169,13 @@ serve(async (req) => {
       });
     }
 
+    if (userProfile.age < 18) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     // Fetch candidate profiles
     let query = supabase
       .from("profiles")
