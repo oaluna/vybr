@@ -1,0 +1,1 @@
+ALTER TABLE public.user_profiles ADD CONSTRAINT user_profiles_age_adult CHECK (age >= 18);
