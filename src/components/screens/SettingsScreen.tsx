@@ -1,13 +1,16 @@
 import { motion } from 'framer-motion';
-import { Bell, Shield, HelpCircle, LogOut, ChevronRight, Moon, Globe } from 'lucide-react';
+import { Bell, Shield, HelpCircle, LogOut, ChevronRight, Moon, Sun, Globe } from 'lucide-react';
 import { BottomTabNav } from '@/components/BottomTabNav';
 import { useAuth } from '@/hooks/useAuth';
 import { useAppStore } from '@/store/appStore';
+import { Switch } from '@/components/ui/switch';
+import { useTheme } from 'next-themes';
 
 interface SettingItem {
   icon: typeof Bell;
   label: string;
   description?: string;
+  isThemeToggle?: boolean;
 }
 
 const settingsGroups: { title: string; items: SettingItem[] }[] = [
@@ -15,7 +18,7 @@ const settingsGroups: { title: string; items: SettingItem[] }[] = [
     title: 'Preferences',
     items: [
       { icon: Bell, label: 'Notifications', description: 'Manage alerts' },
-      { icon: Moon, label: 'Appearance', description: 'Dark mode' },
+      { icon: Moon, label: 'Dark Mode', description: 'Cozy dark theme', isThemeToggle: true },
       { icon: Globe, label: 'Language', description: 'English' },
     ],
   },
@@ -31,6 +34,7 @@ const settingsGroups: { title: string; items: SettingItem[] }[] = [
 export const SettingsScreen = () => {
   const { signOut, isAuthenticated } = useAuth();
   const { setScreen, resetApp } = useAppStore();
+  const { theme, setTheme } = useTheme();
 
   const handleLogout = async () => {
     await signOut();
@@ -75,9 +79,14 @@ export const SettingsScreen = () => {
                     className={`w-full flex items-center gap-4 p-4 hover:bg-muted/50 transition-colors text-left ${
                       itemIndex !== group.items.length - 1 ? 'border-b border-border' : ''
                     }`}
+                    onClick={item.isThemeToggle ? () => setTheme(theme === 'dark' ? 'light' : 'dark') : undefined}
                   >
                     <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-primary" />
+                      {item.isThemeToggle ? (
+                        theme === 'dark' ? <Sun className="w-5 h-5 text-primary" /> : <Moon className="w-5 h-5 text-primary" />
+                      ) : (
+                        <Icon className="w-5 h-5 text-primary" />
+                      )}
                     </div>
                     <div className="flex-1">
                       <p className="font-medium">{item.label}</p>
@@ -85,7 +94,11 @@ export const SettingsScreen = () => {
                         <p className="text-sm text-muted-foreground">{item.description}</p>
                       )}
                     </div>
-                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                    {item.isThemeToggle ? (
+                      <Switch checked={theme === 'dark'} onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')} />
+                    ) : (
+                      <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                    )}
                   </button>
                 );
               })}
