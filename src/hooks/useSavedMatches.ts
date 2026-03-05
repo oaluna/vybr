@@ -26,7 +26,7 @@ export const useSavedMatches = (userId: string | undefined) => {
       .eq('user_id', userId);
 
     if (error) {
-      console.error('Error fetching saved matches:', error);
+      if (import.meta.env.DEV) console.error('Error fetching saved matches');
     } else {
       setSavedMatches(data || []);
     }

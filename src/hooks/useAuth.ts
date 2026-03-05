@@ -37,7 +37,7 @@ export const useAuth = () => {
       .maybeSingle();
 
     if (error) {
-      console.error('Error fetching profile:', error);
+      if (import.meta.env.DEV) console.error('Error fetching profile');
       return null;
     }
 
