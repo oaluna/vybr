@@ -55,14 +55,14 @@ export const useMatchFetching = ({ enabled, onComplete }: UseMatchFetchingOption
               bio: m.bio,
             }));
           } else {
-            console.warn('Edge function failed, falling back to mock data:', error);
+            if (import.meta.env.DEV) console.warn('Edge function failed, falling back to mock data');
             matches = fallbackToMockData(orientation);
           }
         } else {
           matches = fallbackToMockData(orientation);
         }
       } catch (err) {
-        console.warn('Match fetching error, using mock data:', err);
+        if (import.meta.env.DEV) console.warn('Match fetching error, using mock data');
         matches = fallbackToMockData(orientation);
       }
 
